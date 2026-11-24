@@ -1,0 +1,13 @@
+rule_id,name,documented_basis,implemented_basis,documented_excludes_self,implemented_excludes_self,documented_lookback,implemented_lookback,alerts_documented,alerts_implemented,alerts_in_both,tp_documented,tp_implemented,tp_accounts_missed_by_code,gap
+R01,Large single transfer,usd,usd,True,True,1,1,1343,1343,1343,4.0,4.0,0,False
+R02,Structuring below 10k,usd,raw,True,True,7,7,668,786,337,3.0,6.0,0,True
+R03,Fan-out,usd,usd,True,True,1,1,0,0,0,0.0,0.0,0,False
+R04,Rapid movement of funds,usd,usd,True,False,2,2,1067,9877,971,12.0,28.0,0,True
+R05,Activity spike,usd,usd,True,True,7,7,47,47,47,1.0,1.0,0,False
+R06,Fan-in,usd,usd,True,True,1,1,83,83,83,8.0,8.0,0,False
+R07,High-risk corridor,usd,usd,True,True,1,1,611,611,611,1.0,1.0,0,False
+R08,Crypto / cross-currency,usd,usd,True,True,1,1,0,0,0,0.0,0.0,0,False
+R09,Round amounts,usd,usd,True,True,1,1,3476,3476,3476,20.0,20.0,0,False
+R10,Cash activity,usd,usd,True,True,7,1,675,663,143,5.0,2.0,5,True
+R11,High-risk customer outflow,usd,usd,True,True,1,1,688,688,688,13.0,13.0,0,False
+R12,Activity above expected profile,usd,usd,True,True,7,7,591,591,591,29.0,29.0,0,False

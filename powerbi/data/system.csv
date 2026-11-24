@@ -1,0 +1,3 @@
+ruleset,alerts,tp_alerts,precision,alerted_accounts,tp_accounts,recall,laundering_accounts,book_accounts,base_rate_account_days,alerts_per_week
+documented,9249,96.0,0.010379500486539,3500,79,0.0900798175598631,877,45089,0.0030063100357702,4046.4375
+implemented,18165,112.0,0.0061657032755298,11486,94,0.1071835803876852,877,45089,0.0030063100357702,7947.1875

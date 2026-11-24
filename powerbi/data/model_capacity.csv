@@ -1,0 +1,4 @@
+approach,alerts_per_day,precision,laundering_accounts_found,laundering_accounts_in_test,recall_accounts,score_threshold_mean
+Tuned rules (all alerts),277.5,0.0276276276276276,39,410,0.0951219512195122,
+Challenger top 257 per day (capacity),257.0,0.1549935149156939,187,410,0.4560975609756098,0.0388167139556082
+Tuned rules + challenger (union),,,208,410,0.5073170731707317,

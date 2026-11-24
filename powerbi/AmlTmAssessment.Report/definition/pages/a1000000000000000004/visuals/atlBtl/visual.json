@@ -1,0 +1,115 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "atlBtl",
+  "position": {
+    "x": 32,
+    "y": 300,
+    "z": 7000,
+    "height": 728,
+    "width": 916,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ATL BTL"
+                    }
+                  },
+                  "Property": "mult"
+                }
+              },
+              "queryRef": "ATL BTL.mult",
+              "nativeQueryRef": "mult"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ATL BTL"
+                        }
+                      },
+                      "Property": "alerts_per_week"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(ATL BTL.alerts_per_week)",
+              "nativeQueryRef": "Sum of alerts_per_week",
+              "displayName": "alerts_per_week"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ATL BTL"
+                    }
+                  },
+                  "Property": "rule_id"
+                }
+              },
+              "queryRef": "ATL BTL.rule_id",
+              "nativeQueryRef": "rule_id"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Alerts per week by threshold multiplier (1 = current)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

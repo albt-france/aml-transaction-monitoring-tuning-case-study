@@ -1,0 +1,53 @@
+table 'Typology Coverage'
+	lineageTag: 162dcdce-9280-5926-8234-bb566c14d0c0
+
+	column typology
+		dataType: string
+		lineageTag: e4b3191d-2e94-5427-bfa0-5a33ae0a218d
+		summarizeBy: none
+		sourceColumn: typology
+
+	column visible_attempts
+		dataType: int64
+		formatString: #,0
+		lineageTag: 0f3ebf12-6dc8-505b-b5af-d1407e01606e
+		summarizeBy: none
+		sourceColumn: visible_attempts
+
+	column rules_now
+		dataType: double
+		formatString: 0.0%
+		lineageTag: ce5ebe87-a85c-58f1-8eb6-90a12e37be03
+		summarizeBy: none
+		sourceColumn: rules_now
+
+	column tuned_rules
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 0da79480-d2a2-52c6-b6c1-94965a0b2a3f
+		summarizeBy: none
+		sourceColumn: tuned_rules
+
+	column r13_alone
+		dataType: double
+		formatString: 0.0%
+		lineageTag: f0c0aea2-f6cf-50d7-b886-8eec65feac10
+		summarizeBy: none
+		sourceColumn: r13_alone
+
+	column tuned_rules_plus_r13
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 65fdab93-a502-5f76-a9f7-a2786c8ccf14
+		summarizeBy: none
+		sourceColumn: tuned_rules_plus_r13
+
+	partition 'Typology Coverage' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "typology_coverage.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Promoted, {{"typology", type text}, {"visible_attempts", Int64.Type}, {"rules_now", type number}, {"tuned_rules", type number}, {"r13_alone", type number}, {"tuned_rules_plus_r13", type number}}, "en-US")
+				in
+					Typed

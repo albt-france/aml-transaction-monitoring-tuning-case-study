@@ -1,0 +1,132 @@
+# Automated data controls on the Bank N transaction feed (IBM PUBLIC DATA, synthetic + SIMULATED feed layer)
+# and on the SIMULATED KYC file. Each control: what it checks, how often it should run, its WARN / FAIL
+# thresholds, and who owns the fix. src/controls.py evaluates them and writes output/controls_report.csv.
+# metric direction: every metric below is "higher is worse".
+
+controls:
+  - id: C01
+    name: Field completeness
+    object: transaction feed
+    check: null_rate_by_field
+    fields: [ts, from_bank, from_account, to_bank, to_account, amount_paid, payment_currency, payment_format]
+    warn: 0.001
+    fail: 0.01
+    frequency: daily
+    owner: Data engineering
+  - id: C02
+    name: Completeness by feed and day (beneficiary bank)
+    object: transaction feed, per payment format
+    check: null_rate_by_feed_day
+    field: to_bank
+    warn: 0.001
+    fail: 0.01
+    frequency: daily
+    owner: Data engineering
+  - id: C03
+    name: Exact duplicate rows
+    object: transaction feed
+    check: duplicate_rows
+    warn: 0.0
+    fail: 0.01
+    frequency: daily
+    owner: Data engineering
+  - id: C04
+    name: Allowed values (currencies, payment formats)
+    object: transaction feed
+    check: allowed_values
+    currencies: [Australian Dollar, Bitcoin, Brazil Real, Canadian Dollar, Euro, Mexican Peso, Ruble, Rupee,
+                 Saudi Riyal, Shekel, Swiss Franc, UK Pound, US Dollar, Yen, Yuan]
+    formats: [ACH, Bitcoin, Cash, Cheque, Credit Card, Reinvestment, Wire]
+    warn: 0.0
+    fail: 0.0
+    frequency: daily
+    owner: Data engineering
+  - id: C05
+    name: Non-positive amounts
+    object: transaction feed
+    check: non_positive_amounts
+    warn: 0.0
+    fail: 0.0
+    frequency: daily
+    owner: Data engineering
+  - id: C06
+    name: Paid = received when the currency is the same
+    object: transaction feed
+    check: paid_vs_received
+    tolerance: 0.01
+    warn: 0.0
+    fail: 0.001
+    frequency: daily
+    owner: Data engineering
+  - id: C07
+    name: Freshness (feed arrival lag, hours after day end)
+    object: feed metadata
+    check: freshness
+    warn: 6
+    fail: 24
+    frequency: daily
+    owner: Data engineering
+  - id: C08
+    name: Daily volume against the same weekday
+    object: transaction feed
+    check: daily_volume_deviation
+    warn: 0.5
+    fail: 1.5
+    frequency: daily
+    owner: TM operations
+  - id: C09
+    name: Self-transfers share per day
+    object: transaction feed
+    check: self_transfer_share
+    warn: 0.05
+    fail: 0.2
+    frequency: daily
+    owner: TM operations
+  - id: C10
+    name: Accounts missing from the account master
+    object: transaction feed vs account master
+    check: referential_integrity
+    warn: 0.0
+    fail: 0.01
+    frequency: weekly
+    owner: Data engineering
+  - id: C11
+    name: FX rate available for every currency
+    object: FX reference table
+    check: fx_coverage
+    warn: 0.0
+    fail: 0.0
+    frequency: daily
+    owner: Data engineering
+  - id: C12
+    name: Labelled laundering rows match the typology file
+    object: transaction feed vs Patterns file
+    check: label_pattern_consistency
+    warn: 0.01
+    fail: 0.05
+    frequency: per load
+    owner: Data science
+  - id: C13
+    name: Customers without expected activity
+    object: KYC file
+    check: kyc_missing_expected_activity
+    warn: 0.01
+    fail: 0.03
+    frequency: weekly
+    owner: KYC team
+  - id: C14
+    name: High-risk customers with an overdue review (> 12 months)
+    object: KYC file
+    check: kyc_high_risk_overdue
+    warn: 0.02
+    fail: 0.05
+    frequency: weekly
+    owner: KYC team
+  - id: C15
+    name: Several customer records for one entity
+    object: KYC file
+    check: kyc_duplicate_entities
+    warn: 0.0
+    fail: 0.01
+    frequency: weekly
+    owner: KYC team

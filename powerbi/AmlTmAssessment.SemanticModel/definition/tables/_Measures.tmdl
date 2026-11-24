@@ -1,0 +1,83 @@
+table _Measures
+	lineageTag: 0aee399f-4469-5d2f-a3eb-d1f9f82e3af1
+
+	measure 'Alert Volume' = COUNTROWS ( Alerts )
+		formatString: #,0
+		displayFolder: Alerts
+		lineageTag: ee732d8e-0a66-57e0-b4e9-bfd9d94072b8
+
+	measure 'True Positives' = SUM ( Alerts[is_tp] )
+		formatString: #,0
+		displayFolder: Alerts
+		lineageTag: c338fc71-6359-52ce-8e94-8445a12edc97
+
+	measure Precision = DIVIDE ( [True Positives], [Alert Volume] )
+		formatString: 0.0%
+		displayFolder: Alerts
+		lineageTag: 4b833c51-c24f-5e32-bebe-4f415bf01252
+
+	measure Recall = DIVIDE ( SUM ( 'Rule Performance'[tp_accounts] ), MAX ( System[laundering_accounts] ) )
+		formatString: 0.0%
+		displayFolder: Alerts
+		lineageTag: 3f08d814-76ba-58b2-b76f-2303519c175a
+
+	measure 'Alerts per Analyst Hour' = DIVIDE ( [Alert Volume], SUM ( Capacity[hours_available] ) )
+		formatString: 0.0
+		displayFolder: Capacity
+		lineageTag: 4390df2c-a437-52fb-bdb1-1f000bf46847
+
+	measure 'Capacity Load' = DIVIDE ( [Alert Volume], SUM ( Capacity[alert_capacity] ) )
+		formatString: 0.00x
+		displayFolder: Capacity
+		lineageTag: 099b6d0f-959e-5fb6-94a7-87fe0e1c67c3
+
+	measure 'Alert Capacity' = SUM ( Capacity[alert_capacity] )
+		formatString: #,0
+		displayFolder: Capacity
+		lineageTag: 32d14edd-6760-5abe-a4a5-6a6ed100de08
+
+	measure 'Coverage %' = AVERAGE ( 'Typology Coverage'[rules_now] )
+		formatString: 0%
+		displayFolder: Coverage
+		lineageTag: cf5d8e35-2b33-597c-8fd5-200aa6b8bde1
+
+	measure 'Coverage after R13 %' = AVERAGE ( 'Typology Coverage'[tuned_rules_plus_r13] )
+		formatString: 0%
+		displayFolder: Coverage
+		lineageTag: 240f39a1-6ca4-50e0-9986-61fccc9a63d9
+
+	measure 'Detection Share' = AVERAGE ( 'Coverage Matrix'[share_detected] )
+		formatString: 0%
+		displayFolder: Coverage
+		lineageTag: e9593aa8-aaef-5e3d-9fd8-8cd73c2a0057
+
+	measure 'Control Fail Rate' = DIVIDE ( COUNTROWS ( FILTER ( Controls, Controls[status] = "FAIL" ) ), COUNTROWS ( Controls ) )
+		formatString: 0%
+		displayFolder: Data quality
+		lineageTag: 81dda6e6-fc2e-5fd5-8f0c-cd3b6a666125
+
+	measure 'Controls Failing' = COUNTROWS ( FILTER ( Controls, Controls[status] = "FAIL" ) )
+		formatString: 0
+		displayFolder: Data quality
+		lineageTag: 947e0580-2af1-5d69-9568-eb7d2245f6f2
+
+	measure 'Max Null Rate' = MAX ( 'Feed Quality'[null_rate] )
+		formatString: 0.0%
+		displayFolder: Data quality
+		lineageTag: 66d3fbea-a120-54cb-b053-eff4100a96c3
+
+	measure 'Challenger Precision' = MAX ( 'Model Simpson'[precision] )
+		formatString: 0%
+		displayFolder: Model
+		lineageTag: b8ac51de-c4e1-5d9e-8180-b59c13c1485c
+
+	column _
+		dataType: string
+		isHidden
+		lineageTag: d089a48c-6c40-52e3-9446-3519ed4e3ac3
+		summarizeBy: none
+		sourceColumn: _
+
+	partition _Measures = m
+		mode: import
+		source = #table(type table [_ = text], {})

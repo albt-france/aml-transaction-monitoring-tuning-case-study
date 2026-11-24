@@ -1,0 +1,39 @@
+table 'Feed Quality'
+	lineageTag: 506bf94c-795a-5a0b-990a-95b51d877583
+
+	column payment_format
+		dataType: string
+		lineageTag: 5eb22608-e9b6-5e24-baff-71ed98a52cec
+		summarizeBy: none
+		sourceColumn: payment_format
+
+	column day
+		dataType: dateTime
+		formatString: dd mmm yyyy
+		lineageTag: 4bc0ea65-7769-5fa9-95b9-ea6aec8be07f
+		summarizeBy: none
+		sourceColumn: day
+
+	column n_rows
+		dataType: int64
+		formatString: #,0
+		lineageTag: 7f53df1c-99d8-5537-b6ab-d52d4775e7ed
+		summarizeBy: none
+		sourceColumn: n_rows
+
+	column null_rate
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 1840820a-f3c9-5eed-afed-86facec92391
+		summarizeBy: none
+		sourceColumn: null_rate
+
+	partition 'Feed Quality' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "feed_quality.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Promoted, {{"payment_format", type text}, {"day", type date}, {"n_rows", Int64.Type}, {"null_rate", type number}}, "en-US")
+				in
+					Typed

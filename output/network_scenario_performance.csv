@@ -1,0 +1,4 @@
+pattern,alerts,tp_alerts,precision,tp_accounts,tp_accounts_new_vs_tuned_rules,alerts_per_week
+all R13,48,14.0,0.2916666666666667,14,10,21.0
+cycle,43,9.0,0.20930232558139536,9,5,18.8125
+scatter-gather,5,5.0,1.0,5,5,2.1875

@@ -1,0 +1,15 @@
+payment_currency,tx_in_documented_band,tx_in_coded_band,tx_missed_by_code,laundering_tx_missed_by_code,tx_added_by_code
+Euro,2632,2608,1855,7.0,1831
+Yuan,837,1596,837,2.0,1596
+Shekel,488,921,488,0.0,921
+Ruble,474,547,474,1.0,547
+UK Pound,430,284,430,4.0,284
+Canadian Dollar,379,416,379,2.0,416
+Rupee,356,430,356,0.0,430
+Yen,329,410,329,1.0,410
+Mexican Peso,319,532,319,0.0,532
+Australian Dollar,287,336,287,0.0,336
+Brazil Real,232,441,232,0.0,441
+Saudi Riyal,190,325,190,0.0,325
+Swiss Franc,394,290,180,0.0,76
+US Dollar,4645,4645,0,,0

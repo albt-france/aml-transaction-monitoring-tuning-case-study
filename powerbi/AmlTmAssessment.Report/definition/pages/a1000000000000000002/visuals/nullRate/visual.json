@@ -1,0 +1,109 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "nullRate",
+  "position": {
+    "x": 32,
+    "y": 300,
+    "z": 6000,
+    "height": 728,
+    "width": 916,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Feed Quality"
+                    }
+                  },
+                  "Property": "day"
+                }
+              },
+              "queryRef": "Feed Quality.day",
+              "nativeQueryRef": "day"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Max Null Rate"
+                }
+              },
+              "queryRef": "_Measures.Max Null Rate",
+              "nativeQueryRef": "Max Null Rate"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Feed Quality"
+                    }
+                  },
+                  "Property": "payment_format"
+                }
+              },
+              "queryRef": "Feed Quality.payment_format",
+              "nativeQueryRef": "payment_format"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Beneficiary bank missing, share of rows by feed and day'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

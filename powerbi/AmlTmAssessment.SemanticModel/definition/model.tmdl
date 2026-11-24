@@ -1,0 +1,27 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+ref table Alerts
+ref table 'Rule Performance'
+ref table Controls
+ref table 'Feed Quality'
+ref table Capacity
+ref table 'Coverage Matrix'
+ref table 'Typology Coverage'
+ref table 'ATL BTL'
+ref table 'Model Metrics'
+ref table 'Model Capacity'
+ref table 'Model Simpson'
+ref table System
+ref table Rule
+ref table Week
+ref table Segment
+ref table Typology
+ref table _Measures

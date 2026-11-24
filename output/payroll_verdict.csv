@@ -1,0 +1,2 @@
+corporate_alerts,baseline,spike,payroll_driven_alerts,share_known_payroll,laundering_hits,escalated,payments,paying_accounts,median_salary_eur,verdict
+114,75.8,0.5039577836411611,47,1.0,0.0,0,379,26,2947.54,"Expected activity (KYC declares payroll): no risk increase, do not escalate; add a known-payroll exclusion and watch the next cycle"

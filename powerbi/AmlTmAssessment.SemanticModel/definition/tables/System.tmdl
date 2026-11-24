@@ -1,0 +1,88 @@
+table System
+	lineageTag: 4a3f8035-4174-5d29-9eb2-d6828714d596
+
+	column ruleset
+		dataType: string
+		lineageTag: 222459e1-6f5b-5976-9e91-4a62cea8f360
+		summarizeBy: none
+		sourceColumn: ruleset
+
+	column alerts
+		dataType: int64
+		formatString: #,0
+		lineageTag: 4d4a8cf0-0163-5fcc-9a4e-da4fdfa516da
+		summarizeBy: none
+		sourceColumn: alerts
+
+	column tp_alerts
+		dataType: double
+		formatString: #,0.00
+		lineageTag: b8c78bf5-8595-5fce-89ca-7a30022a96de
+		summarizeBy: none
+		sourceColumn: tp_alerts
+
+	column precision
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 06706da1-7707-5272-9b7e-441e4c718a73
+		summarizeBy: none
+		sourceColumn: precision
+
+	column alerted_accounts
+		dataType: int64
+		formatString: #,0
+		lineageTag: ba4f2c3d-90f1-5993-80a2-70db2ede18ab
+		summarizeBy: none
+		sourceColumn: alerted_accounts
+
+	column tp_accounts
+		dataType: int64
+		formatString: #,0
+		lineageTag: a924457c-9111-5610-8b43-dd919e13b6c8
+		summarizeBy: none
+		sourceColumn: tp_accounts
+
+	column recall
+		dataType: double
+		formatString: 0.0%
+		lineageTag: cfe4ac18-ed64-5911-b0e2-608ececa6f3a
+		summarizeBy: none
+		sourceColumn: recall
+
+	column laundering_accounts
+		dataType: int64
+		formatString: #,0
+		lineageTag: 0df6db7d-7d5a-5193-b68a-b28e4642dd0b
+		summarizeBy: none
+		sourceColumn: laundering_accounts
+
+	column book_accounts
+		dataType: int64
+		formatString: #,0
+		lineageTag: d234498c-27c4-5bae-baad-4b260546433b
+		summarizeBy: none
+		sourceColumn: book_accounts
+
+	column base_rate_account_days
+		dataType: double
+		formatString: 0.0%
+		lineageTag: e53dfdc6-ad92-5b75-8be2-945749909f87
+		summarizeBy: none
+		sourceColumn: base_rate_account_days
+
+	column alerts_per_week
+		dataType: double
+		formatString: #,0.00
+		lineageTag: d5c61943-06ef-5b2f-b3fe-f3bdfe99ea4e
+		summarizeBy: none
+		sourceColumn: alerts_per_week
+
+	partition System = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "system.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Promoted, {{"ruleset", type text}, {"alerts", Int64.Type}, {"tp_alerts", type number}, {"precision", type number}, {"alerted_accounts", Int64.Type}, {"tp_accounts", Int64.Type}, {"recall", type number}, {"laundering_accounts", Int64.Type}, {"book_accounts", Int64.Type}, {"base_rate_account_days", type number}, {"alerts_per_week", type number}}, "en-US")
+				in
+					Typed

@@ -1,0 +1,195 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "atlTable",
+  "position": {
+    "x": 972,
+    "y": 300,
+    "z": 8000,
+    "height": 728,
+    "width": 916,
+    "tabOrder": 8000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ATL BTL"
+                    }
+                  },
+                  "Property": "rule_id"
+                }
+              },
+              "queryRef": "ATL BTL.rule_id",
+              "nativeQueryRef": "rule_id"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ATL BTL"
+                    }
+                  },
+                  "Property": "mult"
+                }
+              },
+              "queryRef": "ATL BTL.mult",
+              "nativeQueryRef": "mult"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ATL BTL"
+                    }
+                  },
+                  "Property": "threshold"
+                }
+              },
+              "queryRef": "ATL BTL.threshold",
+              "nativeQueryRef": "threshold"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ATL BTL"
+                    }
+                  },
+                  "Property": "alerts_per_week"
+                }
+              },
+              "queryRef": "ATL BTL.alerts_per_week",
+              "nativeQueryRef": "alerts_per_week"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ATL BTL"
+                    }
+                  },
+                  "Property": "tp_accounts"
+                }
+              },
+              "queryRef": "ATL BTL.tp_accounts",
+              "nativeQueryRef": "tp_accounts"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ATL BTL"
+                    }
+                  },
+                  "Property": "lost_unique_tp_accounts"
+                }
+              },
+              "queryRef": "ATL BTL.lost_unique_tp_accounts",
+              "nativeQueryRef": "lost_unique_tp_accounts"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "objects": {
+      "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#52514E'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'ATL/BTL detail (unique = found by no other rule)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

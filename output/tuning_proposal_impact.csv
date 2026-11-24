@@ -1,0 +1,13 @@
+rule_id,name,action,current_threshold,proposed_threshold,rationale,alerts_now,alerts_after,change_in_alerts,tp_alerts_now,tp_alerts_after
+R01,Large single transfer,retire,750000.0,,Precision equals the base rate and 1 unique laundering account; R12 covers large flows relative to the profile,1343,0,-1.0,4.0,0.0
+R02,Structuring below 10k,fix,10000.0,,"Convert amounts to USD before the 8,000-9,999.99 band, as documented",786,668,-0.15012722646310428,6.0,3.0
+R03,Fan-out,tune,20.0,10.0,Below-the-line test: 10 distinct beneficiaries finds laundering accounts at 15x the base rate,0,217,,0.0,10.0
+R04,Rapid movement of funds,fix,20000.0,,"Exclude self-transfers, as documented",9877,1067,-0.8919712463298572,28.0,12.0
+R05,Activity spike,exclude,5.0,,Known-payroll exclusion for customers whose KYC declares salary batches,47,21,-0.5531914893617021,1.0,1.0
+R06,Fan-in,tune,20.0,10.0,"Below-the-line test: 10 distinct remitters doubles the laundering accounts found, precision stays ~7%",83,234,1.819277108433735,8.0,17.0
+R07,High-risk corridor,keep,,,,611,611,0.0,1.0,1.0
+R08,Crypto / cross-currency,keep,,,,0,0,,0.0,0.0
+R09,Round amounts,tune,1000.0,5000.0,"Largest rule in a normal week at the system's average precision; raise the floor, recover misses with the score",3476,1655,-0.5238780207134637,20.0,7.0
+R10,Cash activity,fix,750000.0,,Restore the documented 7-day accumulation,663,675,0.018099547511312153,2.0,5.0
+R11,High-risk customer outflow,tune,250000.0,375000.0,Above-the-line test: -22% volume for 1 unique laundering account,688,536,-0.22093023255813948,13.0,10.0
+R12,Activity above expected profile,keep,,,,591,591,0.0,29.0,29.0

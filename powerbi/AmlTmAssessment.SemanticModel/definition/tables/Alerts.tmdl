@@ -1,0 +1,70 @@
+table Alerts
+	lineageTag: 4d689f6c-eb6b-5b41-953e-6a0c148dafa4
+
+	column scenario
+		dataType: string
+		lineageTag: 65307c38-462d-5a94-aeba-669c0f19a4ad
+		summarizeBy: none
+		sourceColumn: scenario
+
+	column rule_id
+		dataType: string
+		lineageTag: 5076ad43-eaca-5aee-bb2e-1e5c2b07962f
+		summarizeBy: none
+		sourceColumn: rule_id
+
+	column day
+		dataType: dateTime
+		formatString: dd mmm yyyy
+		lineageTag: 0a3fa318-a3b8-5d5d-96d0-ba42429d5e0c
+		summarizeBy: none
+		sourceColumn: day
+
+	column wk
+		dataType: int64
+		formatString: #,0
+		lineageTag: ebb50120-70bf-5f75-bd9b-2c249b7058a9
+		summarizeBy: none
+		sourceColumn: wk
+
+	column segment
+		dataType: string
+		lineageTag: 2dafd61f-b210-5bea-83dd-12c212626152
+		summarizeBy: none
+		sourceColumn: segment
+
+	column is_tp
+		dataType: int64
+		formatString: #,0
+		lineageTag: ad4a05d4-91ae-5fd3-85a8-cc6875063a14
+		summarizeBy: none
+		sourceColumn: is_tp
+
+	column payroll_driven
+		dataType: boolean
+		lineageTag: 98e0987e-6358-5968-891e-e1b3d0c8f6b4
+		summarizeBy: none
+		sourceColumn: payroll_driven
+
+	column decision
+		dataType: string
+		lineageTag: b71dee6d-8211-5345-8df2-553ce85d0fbb
+		summarizeBy: none
+		sourceColumn: decision
+
+	column handling_minutes
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 530b4897-7972-55f1-9d44-958b716d2c1f
+		summarizeBy: none
+		sourceColumn: handling_minutes
+
+	partition Alerts = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "alerts.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Promoted, {{"scenario", type text}, {"rule_id", type text}, {"day", type date}, {"wk", Int64.Type}, {"segment", type text}, {"is_tp", Int64.Type}, {"payroll_driven", type logical}, {"decision", type text}, {"handling_minutes", type number}}, "en-US")
+				in
+					Typed

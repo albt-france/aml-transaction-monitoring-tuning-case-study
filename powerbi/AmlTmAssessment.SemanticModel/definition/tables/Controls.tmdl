@@ -1,0 +1,75 @@
+table Controls
+	lineageTag: 3d6c9f5b-1a28-51ee-9a62-bcb46fced1c6
+
+	column control_id
+		dataType: string
+		lineageTag: 92af3091-29dd-545e-91eb-78e8c828ba46
+		summarizeBy: none
+		sourceColumn: control_id
+
+	column name
+		dataType: string
+		lineageTag: 2e226e65-0042-52ae-91c4-316e149db062
+		summarizeBy: none
+		sourceColumn: name
+
+	column object
+		dataType: string
+		lineageTag: fd508f3e-c286-5db1-b4b7-7427e700854c
+		summarizeBy: none
+		sourceColumn: object
+
+	column metric
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 8b0d718e-596e-5706-bfe8-5fea6519b3e3
+		summarizeBy: none
+		sourceColumn: metric
+
+	column warn_above
+		dataType: double
+		formatString: #,0.00
+		lineageTag: a4da44bb-e92d-572e-a206-f98b083ba011
+		summarizeBy: none
+		sourceColumn: warn_above
+
+	column fail_above
+		dataType: double
+		formatString: #,0.00
+		lineageTag: ce81d1a6-ea96-5b82-a020-206f34586d68
+		summarizeBy: none
+		sourceColumn: fail_above
+
+	column status
+		dataType: string
+		lineageTag: 28f48fb6-e9c4-5287-889e-f4739c8e5fba
+		summarizeBy: none
+		sourceColumn: status
+
+	column frequency
+		dataType: string
+		lineageTag: 84447833-8760-570e-ad38-03c0ea6d1412
+		summarizeBy: none
+		sourceColumn: frequency
+
+	column owner
+		dataType: string
+		lineageTag: 1425cb00-5822-5dc1-bd18-527b54f046c8
+		summarizeBy: none
+		sourceColumn: owner
+
+	column detail
+		dataType: string
+		lineageTag: 4804135a-c272-5889-8566-2331a83d99cd
+		summarizeBy: none
+		sourceColumn: detail
+
+	partition Controls = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "controls.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Promoted, {{"control_id", type text}, {"name", type text}, {"object", type text}, {"metric", type number}, {"warn_above", type number}, {"fail_above", type number}, {"status", type text}, {"frequency", type text}, {"owner", type text}, {"detail", type text}}, "en-US")
+				in
+					Typed

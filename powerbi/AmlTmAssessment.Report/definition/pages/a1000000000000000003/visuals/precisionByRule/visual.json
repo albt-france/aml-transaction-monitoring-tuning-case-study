@@ -1,0 +1,115 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "precisionByRule",
+  "position": {
+    "x": 32,
+    "y": 156,
+    "z": 4000,
+    "height": 872,
+    "width": 916,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "clusteredColumnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Rule"
+                    }
+                  },
+                  "Property": "rule_id"
+                }
+              },
+              "queryRef": "Rule.rule_id",
+              "nativeQueryRef": "rule_id"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Rule Performance"
+                        }
+                      },
+                      "Property": "precision"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(Rule Performance.precision)",
+              "nativeQueryRef": "Sum of precision",
+              "displayName": "precision"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Rule Performance"
+                    }
+                  },
+                  "Property": "ruleset"
+                }
+              },
+              "queryRef": "Rule Performance.ruleset",
+              "nativeQueryRef": "ruleset"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Precision by rule: documented vs implemented (R07 tiers ILLUSTRATIVE)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

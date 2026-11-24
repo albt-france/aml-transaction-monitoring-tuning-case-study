@@ -1,0 +1,5 @@
+gap,customers,share,base,detection_impact
+Customers without expected activity,792,0.03958416633346661,all customers,R12 cannot evaluate these customers
+High-risk customers with review older than 12 months,177,0.08672219500244978,high-risk customers,Risk rating and expected activity may be stale for the riskiest files
+Customer records sharing one entity,80,0.003998400639744102,all customers,Activity split across two records; profiles and limits are computed per record
+KYC file flagged incomplete,964,0.04818072770891643,all customers,Monitoring runs on partial profiles

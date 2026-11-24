@@ -1,0 +1,60 @@
+table 'Model Capacity'
+	lineageTag: e263201e-efea-5a5d-aee2-2e3690dacf52
+
+	column approach
+		dataType: string
+		lineageTag: a657d3c9-1d4f-5bca-8eed-33edf9656ec9
+		summarizeBy: none
+		sourceColumn: approach
+
+	column alerts_per_day
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 66478b9b-0e60-5084-8fef-054d11c778a5
+		summarizeBy: none
+		sourceColumn: alerts_per_day
+
+	column precision
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 14f58d9d-e1bf-5c19-9297-829dd3c0fb85
+		summarizeBy: none
+		sourceColumn: precision
+
+	column laundering_accounts_found
+		dataType: int64
+		formatString: #,0
+		lineageTag: ec867686-1678-56c7-ac07-784e2df94896
+		summarizeBy: none
+		sourceColumn: laundering_accounts_found
+
+	column laundering_accounts_in_test
+		dataType: int64
+		formatString: #,0
+		lineageTag: c9a6db3a-0103-5c14-9fd2-35251ec5a207
+		summarizeBy: none
+		sourceColumn: laundering_accounts_in_test
+
+	column recall_accounts
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 5c5dfb33-bcdc-5908-a838-50237db8a596
+		summarizeBy: none
+		sourceColumn: recall_accounts
+
+	column score_threshold_mean
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 0335a610-a0c7-5ec3-a6c2-f3e8a432f57f
+		summarizeBy: none
+		sourceColumn: score_threshold_mean
+
+	partition 'Model Capacity' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "model_capacity.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Promoted, {{"approach", type text}, {"alerts_per_day", type number}, {"precision", type number}, {"laundering_accounts_found", Int64.Type}, {"laundering_accounts_in_test", Int64.Type}, {"recall_accounts", type number}, {"score_threshold_mean", type number}}, "en-US")
+				in
+					Typed

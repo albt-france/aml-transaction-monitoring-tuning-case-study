@@ -1,0 +1,4 @@
+engine,dataset,rows_in_csv,rows_written,seconds,peak_rss_gb,cores,ram_gb
+dask,HI-Small,5078345,5078345,15.9,3.08,12,16.8
+duckdb,HI-Small,5078345,5078345,2.1,3.58,12,16.8
+dask,HI-Medium,31898238,31898238,98.6,4.87,12,16.8

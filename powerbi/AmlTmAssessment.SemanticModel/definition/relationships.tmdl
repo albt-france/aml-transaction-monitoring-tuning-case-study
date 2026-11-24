@@ -1,0 +1,35 @@
+relationship rel_01
+	fromColumn: Alerts.rule_id
+	toColumn: Rule.rule_id
+
+relationship rel_02
+	fromColumn: Alerts.wk
+	toColumn: Week.wk
+
+relationship rel_03
+	fromColumn: Alerts.segment
+	toColumn: Segment.segment
+
+relationship rel_04
+	fromColumn: 'Rule Performance'.rule_id
+	toColumn: Rule.rule_id
+
+relationship rel_05
+	fromColumn: Capacity.wk
+	toColumn: Week.wk
+
+relationship rel_06
+	fromColumn: 'Coverage Matrix'.rule_id
+	toColumn: Rule.rule_id
+
+relationship rel_07
+	fromColumn: 'Coverage Matrix'.typology
+	toColumn: Typology.typology
+
+relationship rel_08
+	fromColumn: 'Typology Coverage'.typology
+	toColumn: Typology.typology
+
+relationship rel_09
+	fromColumn: 'ATL BTL'.rule_id
+	toColumn: Rule.rule_id

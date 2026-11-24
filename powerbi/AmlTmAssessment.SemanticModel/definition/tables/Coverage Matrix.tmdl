@@ -1,0 +1,44 @@
+table 'Coverage Matrix'
+	lineageTag: ccffda03-1c6c-53ab-b1b6-b366c66455fe
+
+	column typology
+		dataType: string
+		lineageTag: cb45c1b7-f06d-54dc-820a-b16af5f6a2d9
+		summarizeBy: none
+		sourceColumn: typology
+
+	column rule_id
+		dataType: string
+		lineageTag: 805981bd-718d-5408-966d-e89668b803d1
+		summarizeBy: none
+		sourceColumn: rule_id
+
+	column share_detected
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 8cf820a9-1f78-5fa6-9069-373605da78f5
+		summarizeBy: none
+		sourceColumn: share_detected
+
+	column visible_attempts
+		dataType: int64
+		formatString: #,0
+		lineageTag: 1144d91b-5310-5d46-94ed-5c3fc9838f92
+		summarizeBy: none
+		sourceColumn: visible_attempts
+
+	column documented_target
+		dataType: boolean
+		lineageTag: 04d72a27-4a7d-5cb6-bc6d-9c678808fea3
+		summarizeBy: none
+		sourceColumn: documented_target
+
+	partition 'Coverage Matrix' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "coverage_matrix.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Promoted, {{"typology", type text}, {"rule_id", type text}, {"share_detected", type number}, {"visible_attempts", Int64.Type}, {"documented_target", type logical}}, "en-US")
+				in
+					Typed

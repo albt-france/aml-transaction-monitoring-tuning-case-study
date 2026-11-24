@@ -1,0 +1,44 @@
+table Rule
+	lineageTag: 427f2abf-b03e-570f-a915-7404f36e1487
+
+	column rule_id
+		dataType: string
+		lineageTag: 34272948-31b7-5c67-90c4-8aa7c97a4ba8
+		summarizeBy: none
+		sourceColumn: rule_id
+
+	column name
+		dataType: string
+		lineageTag: 119adbe1-8105-5cde-ab2c-8df49ae374f1
+		summarizeBy: none
+		sourceColumn: name
+
+	column typology
+		dataType: string
+		lineageTag: 3d4b429e-48ce-5209-957e-fde0df40876f
+		summarizeBy: none
+		sourceColumn: typology
+
+	column threshold
+		dataType: int64
+		formatString: #,0
+		lineageTag: 472c2fac-d3da-5097-9c71-e5344bf63110
+		summarizeBy: none
+		sourceColumn: threshold
+
+	column lookback_days
+		dataType: int64
+		formatString: #,0
+		lineageTag: 8704f0b3-7f6f-5a2e-9999-fea0cad99d69
+		summarizeBy: none
+		sourceColumn: lookback_days
+
+	partition Rule = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "rule.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Promoted, {{"rule_id", type text}, {"name", type text}, {"typology", type text}, {"threshold", Int64.Type}, {"lookback_days", Int64.Type}}, "en-US")
+				in
+					Typed

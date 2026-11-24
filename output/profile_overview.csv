@@ -1,0 +1,2 @@
+rows_in_file,rows_in_window,rows_in_sparse_tail,first_day,last_complete_day,last_day_in_file,complete_days,laundering_rows,laundering_rate,accounts_in_master,entities_in_master,bank_n_accounts,bank_n_customers,bank_n_rows,bank_n_laundering_accounts
+31898238,31891251.0,6987.0,2022-09-01,2022-09-16,2022-09-28,16,35230.0,0.0011044497191349566,2087786,668138,45089,19968,1443942,877

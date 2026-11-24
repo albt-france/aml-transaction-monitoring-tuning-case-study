@@ -1,0 +1,81 @@
+table 'ATL BTL'
+	lineageTag: 1aea9824-8d50-51ff-bdc8-ef27c2cc61ee
+
+	column rule_id
+		dataType: string
+		lineageTag: 6a15d1a6-9635-5cd6-87e2-4c5b5d0a440a
+		summarizeBy: none
+		sourceColumn: rule_id
+
+	column mult
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 04edfa57-4920-5778-baf8-b176cc66979a
+		summarizeBy: none
+		sourceColumn: mult
+
+	column threshold
+		dataType: double
+		formatString: #,0.00
+		lineageTag: d300583b-486b-5403-b064-614552d8d343
+		summarizeBy: none
+		sourceColumn: threshold
+
+	column alerts
+		dataType: int64
+		formatString: #,0
+		lineageTag: 1f66bf79-c17c-5d09-8021-fa7d619b6a0c
+		summarizeBy: none
+		sourceColumn: alerts
+
+	column alerts_per_week
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 85831e77-b793-50aa-8ea0-71eed60dffc4
+		summarizeBy: none
+		sourceColumn: alerts_per_week
+
+	column tp_alerts
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 74cc541c-1c1a-5f5d-bf50-fd0f398c6bc1
+		summarizeBy: none
+		sourceColumn: tp_alerts
+
+	column tp_accounts
+		dataType: int64
+		formatString: #,0
+		lineageTag: a67b8a4b-0d93-5764-8b93-97185959b4e1
+		summarizeBy: none
+		sourceColumn: tp_accounts
+
+	column precision
+		dataType: double
+		formatString: 0.0%
+		lineageTag: f2ffe28e-686c-5749-978e-04d97f826ba4
+		summarizeBy: none
+		sourceColumn: precision
+
+	column lost_tp_accounts
+		dataType: int64
+		formatString: #,0
+		lineageTag: 4ba10588-30c0-5956-b380-48cfd7644147
+		summarizeBy: none
+		sourceColumn: lost_tp_accounts
+
+	column lost_unique_tp_accounts
+		dataType: int64
+		formatString: #,0
+		lineageTag: 63737b0e-45db-5ca9-8619-e6cb985ce066
+		summarizeBy: none
+		sourceColumn: lost_unique_tp_accounts
+
+	partition 'ATL BTL' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "atl_btl.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Promoted, {{"rule_id", type text}, {"mult", type number}, {"threshold", type number}, {"alerts", Int64.Type}, {"alerts_per_week", type number}, {"tp_alerts", type number}, {"tp_accounts", Int64.Type}, {"precision", type number}, {"lost_tp_accounts", Int64.Type}, {"lost_unique_tp_accounts", Int64.Type}}, "en-US")
+				in
+					Typed

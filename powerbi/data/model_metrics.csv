@@ -1,0 +1,4 @@
+version,features,validation,roc_auc,avg_precision,n_train,n_test,pos_train,pos_test
+v1 first draft,as-of + whole-period aggregates (future),random split of account-days,0.9855174043887028,0.5677453269260226,233259,139956,701,421
+"v1 features, temporal test",as-of + whole-period aggregates (future),"train <= 2022-09-10, test after",0.9828321348257064,0.558280038124931,236072,137143,619,503
+v2 challenger,as-of only (that day + 7 days before),"train <= 2022-09-10, test after",0.941504784233708,0.250589316121363,236072,137143,619,503

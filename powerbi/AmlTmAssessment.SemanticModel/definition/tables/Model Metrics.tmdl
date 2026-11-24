@@ -1,0 +1,72 @@
+table 'Model Metrics'
+	lineageTag: 308b06f1-6ec6-5969-b651-b35a9383f0ba
+
+	column version
+		dataType: string
+		lineageTag: 6a0e2aca-986b-58b7-84af-09e0f98001c9
+		summarizeBy: none
+		sourceColumn: version
+
+	column features
+		dataType: string
+		lineageTag: d9c9fc66-42ec-57ea-ae90-61037ab0b4a4
+		summarizeBy: none
+		sourceColumn: features
+
+	column validation
+		dataType: string
+		lineageTag: 6c7e0b1b-7b86-5aab-9ad0-336b72b2ca4d
+		summarizeBy: none
+		sourceColumn: validation
+
+	column roc_auc
+		dataType: double
+		formatString: #,0.00
+		lineageTag: aafeb4e2-ba50-564f-bdfd-488bf50a6116
+		summarizeBy: none
+		sourceColumn: roc_auc
+
+	column avg_precision
+		dataType: double
+		formatString: #,0.00
+		lineageTag: e1e6bb07-5abb-53d9-a912-5fb0c64d2d35
+		summarizeBy: none
+		sourceColumn: avg_precision
+
+	column n_train
+		dataType: int64
+		formatString: #,0
+		lineageTag: 9aa5d7f8-cf69-59a6-81eb-dec749bee3e3
+		summarizeBy: none
+		sourceColumn: n_train
+
+	column n_test
+		dataType: int64
+		formatString: #,0
+		lineageTag: f5dbea46-b9f4-5a77-8b1f-e459d2f060f9
+		summarizeBy: none
+		sourceColumn: n_test
+
+	column pos_train
+		dataType: int64
+		formatString: #,0
+		lineageTag: 0886d206-fd3b-50c6-b4a2-2b3b92cbb81b
+		summarizeBy: none
+		sourceColumn: pos_train
+
+	column pos_test
+		dataType: int64
+		formatString: #,0
+		lineageTag: d40e66e7-58b2-5980-970b-f0a6a8c1bc64
+		summarizeBy: none
+		sourceColumn: pos_test
+
+	partition 'Model Metrics' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "model_metrics.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Promoted, {{"version", type text}, {"features", type text}, {"validation", type text}, {"roc_auc", type number}, {"avg_precision", type number}, {"n_train", Int64.Type}, {"n_test", Int64.Type}, {"pos_train", Int64.Type}, {"pos_test", Int64.Type}}, "en-US")
+				in
+					Typed

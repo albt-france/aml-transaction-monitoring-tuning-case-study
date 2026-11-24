@@ -1,0 +1,19 @@
+# raw and working data (downloaded / rebuilt by the scripts)
+data/raw/
+data/parquet/
+data/_hidden_truth.csv
+build/
+output/_*
+# local notes and tooling
+DECISIONS.md
+HANDOFF*.md
+.env
+# caches
+__pycache__/
+.ipynb_checkpoints/
+dask-worker-space/
+spark-warehouse/
+# Power BI local files
+*.pbix
+**/.pbi/cache.abf
+**/.pbi/localSettings.json

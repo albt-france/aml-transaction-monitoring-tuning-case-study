@@ -1,0 +1,5 @@
+expression DataFolder = "C:\aml-transaction-monitoring-tuning-case-study\powerbi\data\" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 7faba81f-0e36-5f1c-aaa7-915cd3448ab3
+
+	annotation PBI_ResultType = Text
+

@@ -1,0 +1,1814 @@
+{
+ "data": {
+  "rows_in_file": 31898238,
+  "rows_in_window": 31891251.0,
+  "rows_in_sparse_tail": 6987.0,
+  "first_day": "2022-09-01",
+  "last_complete_day": "2022-09-16",
+  "last_day_in_file": "2022-09-28",
+  "complete_days": 16,
+  "laundering_rows": 35230.0,
+  "laundering_rate": 0.0011044497191349,
+  "accounts_in_master": 2087786,
+  "entities_in_master": 668138,
+  "bank_n_accounts": 45089,
+  "bank_n_customers": 19968,
+  "bank_n_rows": 1443942,
+  "bank_n_laundering_accounts": 877
+ },
+ "ingest": {
+  "dask_medium": {
+   "engine": "dask",
+   "dataset": "HI-Medium",
+   "rows_in_csv": 31898238,
+   "rows_written": 31898238,
+   "seconds": 98.6,
+   "peak_rss_gb": 4.87,
+   "cores": 12,
+   "ram_gb": 16.8
+  },
+  "dask_small": {
+   "engine": "dask",
+   "dataset": "HI-Small",
+   "rows_in_csv": 5078345,
+   "rows_written": 5078345,
+   "seconds": 15.9,
+   "peak_rss_gb": 3.08,
+   "cores": 12,
+   "ram_gb": 16.8
+  },
+  "duckdb_small": {
+   "engine": "duckdb",
+   "dataset": "HI-Small",
+   "rows_in_csv": 5078345,
+   "rows_written": 5078345,
+   "seconds": 2.1,
+   "peak_rss_gb": 3.58,
+   "cores": 12,
+   "ram_gb": 16.8
+  }
+ },
+ "controls": {
+  "n": 15,
+  "pass": 6,
+  "warn": 4,
+  "fail": 5,
+  "detail": {
+   "C01": {
+    "status": "WARN",
+    "metric": 0.003667,
+    "detail": "worst field: to_bank (0.367%); all others 0.000% or less"
+   },
+   "C02": {
+    "status": "FAIL",
+    "metric": 0.061294,
+    "detail": "ACH feed loses the beneficiary bank from 2022-09-09 (6.03% of rows on average, 8 days)"
+   },
+   "C03": {
+    "status": "WARN",
+    "metric": 1e-06,
+    "detail": "20 exact duplicate rows out of 31,891,251"
+   },
+   "C04": {
+    "status": "PASS",
+    "metric": 0.0,
+    "detail": "0 rows outside 15 currencies / 7 formats"
+   },
+   "C05": {
+    "status": "PASS",
+    "metric": 0.0,
+    "detail": "0 rows with an amount <= 0"
+   },
+   "C06": {
+    "status": "PASS",
+    "metric": 0.0,
+    "detail": "0 same-currency rows where paid and received differ"
+   },
+   "C07": {
+    "status": "PASS",
+    "metric": 3.483333,
+    "detail": "latest feed arrives 3.5 h after day end; the source file also carries 6,987 late rows up to 2022-09-28, outside the complete-day window"
+   },
+   "C08": {
+    "status": "WARN",
+    "metric": 1.313251,
+    "detail": "largest deviation +131% on 2022-09-01 (4,465,985 rows)"
+   },
+   "C09": {
+    "status": "FAIL",
+    "metric": 0.454775,
+    "detail": "45% self-transfers on 2022-09-01 (1,945,611 'Reinvestment' rows, none on other days)"
+   },
+   "C10": {
+    "status": "PASS",
+    "metric": 0.0,
+    "detail": "0 of 2,076,983 accounts seen in the feed are missing from the master"
+   },
+   "C11": {
+    "status": "PASS",
+    "metric": 0.0,
+    "detail": "15 currencies with a fixed USD rate implied by the file; 0 rows without USD amount"
+   },
+   "C12": {
+    "status": "FAIL",
+    "metric": 0.400918,
+    "detail": "12,487 of 31,146 labelled rows in the window are not listed in the typology file: coverage by typology is measured on the documented attempts only"
+   },
+   "C13": {
+    "status": "FAIL",
+    "metric": 0.039584,
+    "detail": "792 customers without expected monthly volume (R12 cannot evaluate them)"
+   },
+   "C14": {
+    "status": "FAIL",
+    "metric": 0.086722,
+    "detail": "177 high-risk customers last reviewed more than 12 months before 2022-09-16"
+   },
+   "C15": {
+    "status": "WARN",
+    "metric": 0.002003,
+    "detail": "80 customer records share an entity with another record"
+   }
+  }
+ },
+ "system": {
+  "documented": {
+   "alerts": 9249,
+   "tp_alerts": 96.0,
+   "precision": 0.010379500486539,
+   "alerted_accounts": 3500,
+   "tp_accounts": 79,
+   "recall": 0.0900798175598631,
+   "laundering_accounts": 877,
+   "book_accounts": 45089,
+   "base_rate_account_days": 0.0030063100357702,
+   "alerts_per_week": 4046.4375
+  },
+  "implemented": {
+   "alerts": 18165,
+   "tp_alerts": 112.0,
+   "precision": 0.0061657032755298,
+   "alerted_accounts": 11486,
+   "tp_accounts": 94,
+   "recall": 0.1071835803876852,
+   "laundering_accounts": 877,
+   "book_accounts": 45089,
+   "base_rate_account_days": 0.0030063100357702,
+   "alerts_per_week": 7947.1875
+  }
+ },
+ "rules_implemented": {
+  "R01": {
+   "ruleset": "implemented",
+   "name": "Large single transfer",
+   "alerts": 1343,
+   "share_of_alerts": 0.0739333883842554,
+   "tp_alerts": 4.0,
+   "precision": 0.0029784065524944,
+   "tp_accounts": 3,
+   "recall": 0.0034207525655644,
+   "unique_tp_accounts": 1,
+   "alerts_per_week": 587.5625
+  },
+  "R02": {
+   "ruleset": "implemented",
+   "name": "Structuring below 10k",
+   "alerts": 786,
+   "share_of_alerts": 0.0432700247729149,
+   "tp_alerts": 6.0,
+   "precision": 0.0076335877862595,
+   "tp_accounts": 6,
+   "recall": 0.0068415051311288,
+   "unique_tp_accounts": 5,
+   "alerts_per_week": 343.875
+  },
+  "R03": {
+   "ruleset": "implemented",
+   "name": "Fan-out",
+   "alerts": 0,
+   "share_of_alerts": 0.0,
+   "tp_alerts": 0.0,
+   "precision": NaN,
+   "tp_accounts": 0,
+   "recall": 0.0,
+   "unique_tp_accounts": 0,
+   "alerts_per_week": 0.0
+  },
+  "R04": {
+   "ruleset": "implemented",
+   "name": "Rapid movement of funds",
+   "alerts": 9877,
+   "share_of_alerts": 0.54373795761079,
+   "tp_alerts": 28.0,
+   "precision": 0.0028348688873139,
+   "tp_accounts": 28,
+   "recall": 0.0319270239452679,
+   "unique_tp_accounts": 25,
+   "alerts_per_week": 4321.1875
+  },
+  "R05": {
+   "ruleset": "implemented",
+   "name": "Activity spike",
+   "alerts": 47,
+   "share_of_alerts": 0.0025873933388384,
+   "tp_alerts": 1.0,
+   "precision": 0.0212765957446808,
+   "tp_accounts": 1,
+   "recall": 0.0011402508551881,
+   "unique_tp_accounts": 1,
+   "alerts_per_week": 20.5625
+  },
+  "R06": {
+   "ruleset": "implemented",
+   "name": "Fan-in",
+   "alerts": 83,
+   "share_of_alerts": 0.0045692265345444,
+   "tp_alerts": 8.0,
+   "precision": 0.0963855421686747,
+   "tp_accounts": 8,
+   "recall": 0.0091220068415051,
+   "unique_tp_accounts": 8,
+   "alerts_per_week": 36.3125
+  },
+  "R07": {
+   "ruleset": "implemented",
+   "name": "High-risk corridor",
+   "alerts": 611,
+   "share_of_alerts": 0.0336361134048995,
+   "tp_alerts": 1.0,
+   "precision": 0.0016366612111292,
+   "tp_accounts": 1,
+   "recall": 0.0011402508551881,
+   "unique_tp_accounts": 0,
+   "alerts_per_week": 267.3125
+  },
+  "R08": {
+   "ruleset": "implemented",
+   "name": "Crypto / cross-currency",
+   "alerts": 0,
+   "share_of_alerts": 0.0,
+   "tp_alerts": 0.0,
+   "precision": NaN,
+   "tp_accounts": 0,
+   "recall": 0.0,
+   "unique_tp_accounts": 0,
+   "alerts_per_week": 0.0
+  },
+  "R09": {
+   "ruleset": "implemented",
+   "name": "Round amounts",
+   "alerts": 3476,
+   "share_of_alerts": 0.1913570052298376,
+   "tp_alerts": 20.0,
+   "precision": 0.0057537399309551,
+   "tp_accounts": 16,
+   "recall": 0.0182440136830102,
+   "unique_tp_accounts": 10,
+   "alerts_per_week": 1520.75
+  },
+  "R10": {
+   "ruleset": "implemented",
+   "name": "Cash activity",
+   "alerts": 663,
+   "share_of_alerts": 0.0364987613542526,
+   "tp_alerts": 2.0,
+   "precision": 0.0030165912518853,
+   "tp_accounts": 2,
+   "recall": 0.0022805017103762,
+   "unique_tp_accounts": 2,
+   "alerts_per_week": 290.0625
+  },
+  "R11": {
+   "ruleset": "implemented",
+   "name": "High-risk customer outflow",
+   "alerts": 688,
+   "share_of_alerts": 0.0378750344068263,
+   "tp_alerts": 13.0,
+   "precision": 0.0188953488372093,
+   "tp_accounts": 11,
+   "recall": 0.0125427594070695,
+   "unique_tp_accounts": 4,
+   "alerts_per_week": 301.0
+  },
+  "R12": {
+   "ruleset": "implemented",
+   "name": "Activity above expected profile",
+   "alerts": 591,
+   "share_of_alerts": 0.0325350949628406,
+   "tp_alerts": 29.0,
+   "precision": 0.0490693739424703,
+   "tp_accounts": 29,
+   "recall": 0.0330672748004561,
+   "unique_tp_accounts": 28,
+   "alerts_per_week": 258.5625
+  }
+ },
+ "rules_documented": {
+  "R01": {
+   "ruleset": "documented",
+   "name": "Large single transfer",
+   "alerts": 1343,
+   "share_of_alerts": 0.1452048870148124,
+   "tp_alerts": 4.0,
+   "precision": 0.0029784065524944,
+   "tp_accounts": 3,
+   "recall": 0.0034207525655644,
+   "unique_tp_accounts": 1,
+   "alerts_per_week": 587.5625
+  },
+  "R02": {
+   "ruleset": "documented",
+   "name": "Structuring below 10k",
+   "alerts": 668,
+   "share_of_alerts": 0.0722240242188344,
+   "tp_alerts": 3.0,
+   "precision": 0.0044910179640718,
+   "tp_accounts": 3,
+   "recall": 0.0034207525655644,
+   "unique_tp_accounts": 3,
+   "alerts_per_week": 292.25
+  },
+  "R03": {
+   "ruleset": "documented",
+   "name": "Fan-out",
+   "alerts": 0,
+   "share_of_alerts": 0.0,
+   "tp_alerts": 0.0,
+   "precision": NaN,
+   "tp_accounts": 0,
+   "recall": 0.0,
+   "unique_tp_accounts": 0,
+   "alerts_per_week": 0.0
+  },
+  "R04": {
+   "ruleset": "documented",
+   "name": "Rapid movement of funds",
+   "alerts": 1067,
+   "share_of_alerts": 0.1153638231160125,
+   "tp_alerts": 12.0,
+   "precision": 0.0112464854732895,
+   "tp_accounts": 12,
+   "recall": 0.0136830102622576,
+   "unique_tp_accounts": 11,
+   "alerts_per_week": 466.8125
+  },
+  "R05": {
+   "ruleset": "documented",
+   "name": "Activity spike",
+   "alerts": 47,
+   "share_of_alerts": 0.0050816304465347,
+   "tp_alerts": 1.0,
+   "precision": 0.0212765957446808,
+   "tp_accounts": 1,
+   "recall": 0.0011402508551881,
+   "unique_tp_accounts": 1,
+   "alerts_per_week": 20.5625
+  },
+  "R06": {
+   "ruleset": "documented",
+   "name": "Fan-in",
+   "alerts": 83,
+   "share_of_alerts": 0.0089739431289869,
+   "tp_alerts": 8.0,
+   "precision": 0.0963855421686747,
+   "tp_accounts": 8,
+   "recall": 0.0091220068415051,
+   "unique_tp_accounts": 8,
+   "alerts_per_week": 36.3125
+  },
+  "R07": {
+   "ruleset": "documented",
+   "name": "High-risk corridor",
+   "alerts": 611,
+   "share_of_alerts": 0.0660611958049518,
+   "tp_alerts": 1.0,
+   "precision": 0.0016366612111292,
+   "tp_accounts": 1,
+   "recall": 0.0011402508551881,
+   "unique_tp_accounts": 0,
+   "alerts_per_week": 267.3125
+  },
+  "R08": {
+   "ruleset": "documented",
+   "name": "Crypto / cross-currency",
+   "alerts": 0,
+   "share_of_alerts": 0.0,
+   "tp_alerts": 0.0,
+   "precision": NaN,
+   "tp_accounts": 0,
+   "recall": 0.0,
+   "unique_tp_accounts": 0,
+   "alerts_per_week": 0.0
+  },
+  "R09": {
+   "ruleset": "documented",
+   "name": "Round amounts",
+   "alerts": 3476,
+   "share_of_alerts": 0.3758244134501027,
+   "tp_alerts": 20.0,
+   "precision": 0.0057537399309551,
+   "tp_accounts": 16,
+   "recall": 0.0182440136830102,
+   "unique_tp_accounts": 11,
+   "alerts_per_week": 1520.75
+  },
+  "R10": {
+   "ruleset": "documented",
+   "name": "Cash activity",
+   "alerts": 675,
+   "share_of_alerts": 0.0729808627959779,
+   "tp_alerts": 5.0,
+   "precision": 0.0074074074074074,
+   "tp_accounts": 5,
+   "recall": 0.0057012542759407,
+   "unique_tp_accounts": 3,
+   "alerts_per_week": 295.3125
+  },
+  "R11": {
+   "ruleset": "documented",
+   "name": "High-risk customer outflow",
+   "alerts": 688,
+   "share_of_alerts": 0.0743864201535301,
+   "tp_alerts": 13.0,
+   "precision": 0.0188953488372093,
+   "tp_accounts": 11,
+   "recall": 0.0125427594070695,
+   "unique_tp_accounts": 4,
+   "alerts_per_week": 301.0
+  },
+  "R12": {
+   "ruleset": "documented",
+   "name": "Activity above expected profile",
+   "alerts": 591,
+   "share_of_alerts": 0.0638987998702562,
+   "tp_alerts": 29.0,
+   "precision": 0.0490693739424703,
+   "tp_accounts": 29,
+   "recall": 0.0330672748004561,
+   "unique_tp_accounts": 29,
+   "alerts_per_week": 258.5625
+  }
+ },
+ "doc_vs_code": {
+  "R01": {
+   "name": "Large single transfer",
+   "documented_basis": "usd",
+   "implemented_basis": "usd",
+   "documented_excludes_self": true,
+   "implemented_excludes_self": true,
+   "documented_lookback": 1,
+   "implemented_lookback": 1,
+   "alerts_documented": 1343,
+   "alerts_implemented": 1343,
+   "alerts_in_both": 1343,
+   "tp_documented": 4.0,
+   "tp_implemented": 4.0,
+   "tp_accounts_missed_by_code": 0,
+   "gap": false
+  },
+  "R02": {
+   "name": "Structuring below 10k",
+   "documented_basis": "usd",
+   "implemented_basis": "raw",
+   "documented_excludes_self": true,
+   "implemented_excludes_self": true,
+   "documented_lookback": 7,
+   "implemented_lookback": 7,
+   "alerts_documented": 668,
+   "alerts_implemented": 786,
+   "alerts_in_both": 337,
+   "tp_documented": 3.0,
+   "tp_implemented": 6.0,
+   "tp_accounts_missed_by_code": 0,
+   "gap": true
+  },
+  "R03": {
+   "name": "Fan-out",
+   "documented_basis": "usd",
+   "implemented_basis": "usd",
+   "documented_excludes_self": true,
+   "implemented_excludes_self": true,
+   "documented_lookback": 1,
+   "implemented_lookback": 1,
+   "alerts_documented": 0,
+   "alerts_implemented": 0,
+   "alerts_in_both": 0,
+   "tp_documented": 0.0,
+   "tp_implemented": 0.0,
+   "tp_accounts_missed_by_code": 0,
+   "gap": false
+  },
+  "R04": {
+   "name": "Rapid movement of funds",
+   "documented_basis": "usd",
+   "implemented_basis": "usd",
+   "documented_excludes_self": true,
+   "implemented_excludes_self": false,
+   "documented_lookback": 2,
+   "implemented_lookback": 2,
+   "alerts_documented": 1067,
+   "alerts_implemented": 9877,
+   "alerts_in_both": 971,
+   "tp_documented": 12.0,
+   "tp_implemented": 28.0,
+   "tp_accounts_missed_by_code": 0,
+   "gap": true
+  },
+  "R05": {
+   "name": "Activity spike",
+   "documented_basis": "usd",
+   "implemented_basis": "usd",
+   "documented_excludes_self": true,
+   "implemented_excludes_self": true,
+   "documented_lookback": 7,
+   "implemented_lookback": 7,
+   "alerts_documented": 47,
+   "alerts_implemented": 47,
+   "alerts_in_both": 47,
+   "tp_documented": 1.0,
+   "tp_implemented": 1.0,
+   "tp_accounts_missed_by_code": 0,
+   "gap": false
+  },
+  "R06": {
+   "name": "Fan-in",
+   "documented_basis": "usd",
+   "implemented_basis": "usd",
+   "documented_excludes_self": true,
+   "implemented_excludes_self": true,
+   "documented_lookback": 1,
+   "implemented_lookback": 1,
+   "alerts_documented": 83,
+   "alerts_implemented": 83,
+   "alerts_in_both": 83,
+   "tp_documented": 8.0,
+   "tp_implemented": 8.0,
+   "tp_accounts_missed_by_code": 0,
+   "gap": false
+  },
+  "R07": {
+   "name": "High-risk corridor",
+   "documented_basis": "usd",
+   "implemented_basis": "usd",
+   "documented_excludes_self": true,
+   "implemented_excludes_self": true,
+   "documented_lookback": 1,
+   "implemented_lookback": 1,
+   "alerts_documented": 611,
+   "alerts_implemented": 611,
+   "alerts_in_both": 611,
+   "tp_documented": 1.0,
+   "tp_implemented": 1.0,
+   "tp_accounts_missed_by_code": 0,
+   "gap": false
+  },
+  "R08": {
+   "name": "Crypto / cross-currency",
+   "documented_basis": "usd",
+   "implemented_basis": "usd",
+   "documented_excludes_self": true,
+   "implemented_excludes_self": true,
+   "documented_lookback": 1,
+   "implemented_lookback": 1,
+   "alerts_documented": 0,
+   "alerts_implemented": 0,
+   "alerts_in_both": 0,
+   "tp_documented": 0.0,
+   "tp_implemented": 0.0,
+   "tp_accounts_missed_by_code": 0,
+   "gap": false
+  },
+  "R09": {
+   "name": "Round amounts",
+   "documented_basis": "usd",
+   "implemented_basis": "usd",
+   "documented_excludes_self": true,
+   "implemented_excludes_self": true,
+   "documented_lookback": 1,
+   "implemented_lookback": 1,
+   "alerts_documented": 3476,
+   "alerts_implemented": 3476,
+   "alerts_in_both": 3476,
+   "tp_documented": 20.0,
+   "tp_implemented": 20.0,
+   "tp_accounts_missed_by_code": 0,
+   "gap": false
+  },
+  "R10": {
+   "name": "Cash activity",
+   "documented_basis": "usd",
+   "implemented_basis": "usd",
+   "documented_excludes_self": true,
+   "implemented_excludes_self": true,
+   "documented_lookback": 7,
+   "implemented_lookback": 1,
+   "alerts_documented": 675,
+   "alerts_implemented": 663,
+   "alerts_in_both": 143,
+   "tp_documented": 5.0,
+   "tp_implemented": 2.0,
+   "tp_accounts_missed_by_code": 5,
+   "gap": true
+  },
+  "R11": {
+   "name": "High-risk customer outflow",
+   "documented_basis": "usd",
+   "implemented_basis": "usd",
+   "documented_excludes_self": true,
+   "implemented_excludes_self": true,
+   "documented_lookback": 1,
+   "implemented_lookback": 1,
+   "alerts_documented": 688,
+   "alerts_implemented": 688,
+   "alerts_in_both": 688,
+   "tp_documented": 13.0,
+   "tp_implemented": 13.0,
+   "tp_accounts_missed_by_code": 0,
+   "gap": false
+  },
+  "R12": {
+   "name": "Activity above expected profile",
+   "documented_basis": "usd",
+   "implemented_basis": "usd",
+   "documented_excludes_self": true,
+   "implemented_excludes_self": true,
+   "documented_lookback": 7,
+   "implemented_lookback": 7,
+   "alerts_documented": 591,
+   "alerts_implemented": 591,
+   "alerts_in_both": 591,
+   "tp_documented": 29.0,
+   "tp_implemented": 29.0,
+   "tp_accounts_missed_by_code": 0,
+   "gap": false
+  }
+ },
+ "r04": {
+  "r04_alerts_implemented": 9877.0,
+  "alerts_only_because_of_self_transfers": 8906.0,
+  "share_without_business_meaning": 0.901690796800648,
+  "of_which_on_first_day": 8751.0,
+  "tp_among_them": 16.0
+ },
+ "feed_defect": {
+  "book_rows_without_beneficiary_bank": 2815,
+  "laundering_rows_among_them": 24.0,
+  "r07_alerts_missed": 2,
+  "r07_missed_on_laundering_account_days": 0,
+  "first_day": "2022-09-09"
+ },
+ "capacity": {
+  "1": {
+   "days_in_week": 7,
+   "analysts": 12,
+   "hours_available": 360.0,
+   "alert_capacity": 1800,
+   "alerts_implemented": 13922,
+   "alerts_tuned": 3923,
+   "load_implemented": 7.734444444444445,
+   "load_tuned": 2.1794444444444445,
+   "hours_needed_implemented": 3150.3733333333244
+  },
+  "2": {
+   "days_in_week": 7,
+   "analysts": 12,
+   "hours_available": 360.0,
+   "alert_capacity": 1800,
+   "alerts_implemented": 2875,
+   "alerts_tuned": 1543,
+   "load_implemented": 1.5972222222222223,
+   "load_tuned": 0.8572222222222222,
+   "hours_needed_implemented": 678.7116666666659
+  },
+  "3": {
+   "days_in_week": 2,
+   "analysts": 12,
+   "hours_available": 102.9,
+   "alert_capacity": 514,
+   "alerts_implemented": 1368,
+   "alerts_tuned": 809,
+   "load_implemented": 2.6614785992217898,
+   "load_tuned": 1.573929961089494,
+   "hours_needed_implemented": 317.4266666666665
+  }
+ },
+ "r09_share_week2": 0.40243478260869564,
+ "tuning": {
+  "alerts_now": 18165.0,
+  "alerts_after": 6275.0,
+  "change_in_alerts": -0.6545554638040187,
+  "precision_now": 0.0061657032755298,
+  "precision_after": 0.0151394422310756,
+  "tp_accounts_now": 94.0,
+  "tp_accounts_after": 85.0,
+  "tp_accounts_lost": 25.0,
+  "tp_accounts_gained": 16.0
+ },
+ "tuning_rules": {
+  "R01": {
+   "name": "Large single transfer",
+   "action": "retire",
+   "current_threshold": 750000.0,
+   "proposed_threshold": NaN,
+   "rationale": "Precision equals the base rate and 1 unique laundering account; R12 covers large flows relative to the profile",
+   "alerts_now": 1343,
+   "alerts_after": 0,
+   "change_in_alerts": -1.0,
+   "tp_alerts_now": 4.0,
+   "tp_alerts_after": 0.0
+  },
+  "R02": {
+   "name": "Structuring below 10k",
+   "action": "fix",
+   "current_threshold": 10000.0,
+   "proposed_threshold": NaN,
+   "rationale": "Convert amounts to USD before the 8,000-9,999.99 band, as documented",
+   "alerts_now": 786,
+   "alerts_after": 668,
+   "change_in_alerts": -0.1501272264631042,
+   "tp_alerts_now": 6.0,
+   "tp_alerts_after": 3.0
+  },
+  "R03": {
+   "name": "Fan-out",
+   "action": "tune",
+   "current_threshold": 20.0,
+   "proposed_threshold": 10.0,
+   "rationale": "Below-the-line test: 10 distinct beneficiaries finds laundering accounts at 15x the base rate",
+   "alerts_now": 0,
+   "alerts_after": 217,
+   "change_in_alerts": NaN,
+   "tp_alerts_now": 0.0,
+   "tp_alerts_after": 10.0
+  },
+  "R04": {
+   "name": "Rapid movement of funds",
+   "action": "fix",
+   "current_threshold": 20000.0,
+   "proposed_threshold": NaN,
+   "rationale": "Exclude self-transfers, as documented",
+   "alerts_now": 9877,
+   "alerts_after": 1067,
+   "change_in_alerts": -0.8919712463298572,
+   "tp_alerts_now": 28.0,
+   "tp_alerts_after": 12.0
+  },
+  "R05": {
+   "name": "Activity spike",
+   "action": "exclude",
+   "current_threshold": 5.0,
+   "proposed_threshold": NaN,
+   "rationale": "Known-payroll exclusion for customers whose KYC declares salary batches",
+   "alerts_now": 47,
+   "alerts_after": 21,
+   "change_in_alerts": -0.5531914893617021,
+   "tp_alerts_now": 1.0,
+   "tp_alerts_after": 1.0
+  },
+  "R06": {
+   "name": "Fan-in",
+   "action": "tune",
+   "current_threshold": 20.0,
+   "proposed_threshold": 10.0,
+   "rationale": "Below-the-line test: 10 distinct remitters doubles the laundering accounts found, precision stays ~7%",
+   "alerts_now": 83,
+   "alerts_after": 234,
+   "change_in_alerts": 1.819277108433735,
+   "tp_alerts_now": 8.0,
+   "tp_alerts_after": 17.0
+  },
+  "R07": {
+   "name": "High-risk corridor",
+   "action": "keep",
+   "current_threshold": NaN,
+   "proposed_threshold": NaN,
+   "rationale": NaN,
+   "alerts_now": 611,
+   "alerts_after": 611,
+   "change_in_alerts": 0.0,
+   "tp_alerts_now": 1.0,
+   "tp_alerts_after": 1.0
+  },
+  "R08": {
+   "name": "Crypto / cross-currency",
+   "action": "keep",
+   "current_threshold": NaN,
+   "proposed_threshold": NaN,
+   "rationale": NaN,
+   "alerts_now": 0,
+   "alerts_after": 0,
+   "change_in_alerts": NaN,
+   "tp_alerts_now": 0.0,
+   "tp_alerts_after": 0.0
+  },
+  "R09": {
+   "name": "Round amounts",
+   "action": "tune",
+   "current_threshold": 1000.0,
+   "proposed_threshold": 5000.0,
+   "rationale": "Largest rule in a normal week at the system's average precision; raise the floor, recover misses with the score",
+   "alerts_now": 3476,
+   "alerts_after": 1655,
+   "change_in_alerts": -0.5238780207134637,
+   "tp_alerts_now": 20.0,
+   "tp_alerts_after": 7.0
+  },
+  "R10": {
+   "name": "Cash activity",
+   "action": "fix",
+   "current_threshold": 750000.0,
+   "proposed_threshold": NaN,
+   "rationale": "Restore the documented 7-day accumulation",
+   "alerts_now": 663,
+   "alerts_after": 675,
+   "change_in_alerts": 0.0180995475113121,
+   "tp_alerts_now": 2.0,
+   "tp_alerts_after": 5.0
+  },
+  "R11": {
+   "name": "High-risk customer outflow",
+   "action": "tune",
+   "current_threshold": 250000.0,
+   "proposed_threshold": 375000.0,
+   "rationale": "Above-the-line test: -22% volume for 1 unique laundering account",
+   "alerts_now": 688,
+   "alerts_after": 536,
+   "change_in_alerts": -0.2209302325581394,
+   "tp_alerts_now": 13.0,
+   "tp_alerts_after": 10.0
+  },
+  "R12": {
+   "name": "Activity above expected profile",
+   "action": "keep",
+   "current_threshold": NaN,
+   "proposed_threshold": NaN,
+   "rationale": NaN,
+   "alerts_now": 591,
+   "alerts_after": 591,
+   "change_in_alerts": 0.0,
+   "tp_alerts_now": 29.0,
+   "tp_alerts_after": 29.0
+  }
+ },
+ "atl_btl": {
+  "R01": {
+   "0.5": {
+    "threshold": 375000.0,
+    "alerts_per_week": 2145.0625,
+    "tp_accounts": 14,
+    "precision": 0.0030593514174994,
+    "lost_unique_tp_accounts": 0
+   },
+   "0.75": {
+    "threshold": 562500.0,
+    "alerts_per_week": 1252.125,
+    "tp_accounts": 6,
+    "precision": 0.0024458420684835,
+    "lost_unique_tp_accounts": 0
+   },
+   "1.0": {
+    "threshold": 750000.0,
+    "alerts_per_week": 587.5625,
+    "tp_accounts": 3,
+    "precision": 0.0029784065524944,
+    "lost_unique_tp_accounts": 0
+   }
+  },
+  "R03": {
+   "0.5": {
+    "threshold": 10.0,
+    "alerts_per_week": 94.9375,
+    "tp_accounts": 6,
+    "precision": 0.0460829493087557,
+    "lost_unique_tp_accounts": 0
+   },
+   "0.75": {
+    "threshold": 15.0,
+    "alerts_per_week": 6.5625,
+    "tp_accounts": 0,
+    "precision": 0.0,
+    "lost_unique_tp_accounts": 0
+   }
+  },
+  "R06": {
+   "0.5": {
+    "threshold": 10.0,
+    "alerts_per_week": 102.375,
+    "tp_accounts": 17,
+    "precision": 0.0726495726495726,
+    "lost_unique_tp_accounts": 0
+   },
+   "0.75": {
+    "threshold": 15.0,
+    "alerts_per_week": 66.5,
+    "tp_accounts": 11,
+    "precision": 0.0723684210526315,
+    "lost_unique_tp_accounts": 0
+   },
+   "1.0": {
+    "threshold": 20.0,
+    "alerts_per_week": 36.3125,
+    "tp_accounts": 8,
+    "precision": 0.0963855421686747,
+    "lost_unique_tp_accounts": 0
+   },
+   "1.5": {
+    "threshold": 30.0,
+    "alerts_per_week": 17.9375,
+    "tp_accounts": 3,
+    "precision": 0.073170731707317,
+    "lost_unique_tp_accounts": 5
+   },
+   "2.0": {
+    "threshold": 40.0,
+    "alerts_per_week": 11.8125,
+    "tp_accounts": 3,
+    "precision": 0.1111111111111111,
+    "lost_unique_tp_accounts": 5
+   },
+   "3.0": {
+    "threshold": 60.0,
+    "alerts_per_week": 4.375,
+    "tp_accounts": 1,
+    "precision": 0.1,
+    "lost_unique_tp_accounts": 7
+   }
+  },
+  "R07": {
+   "0.5": {
+    "threshold": 250000.0,
+    "alerts_per_week": 552.5625,
+    "tp_accounts": 3,
+    "precision": 0.0039588281868566,
+    "lost_unique_tp_accounts": 0
+   },
+   "0.75": {
+    "threshold": 375000.0,
+    "alerts_per_week": 388.5,
+    "tp_accounts": 1,
+    "precision": 0.0011261261261261,
+    "lost_unique_tp_accounts": 0
+   },
+   "1.0": {
+    "threshold": 500000.0,
+    "alerts_per_week": 267.3125,
+    "tp_accounts": 1,
+    "precision": 0.0016366612111292,
+    "lost_unique_tp_accounts": 0
+   },
+   "1.5": {
+    "threshold": 750000.0,
+    "alerts_per_week": 122.9375,
+    "tp_accounts": 0,
+    "precision": 0.0,
+    "lost_unique_tp_accounts": 0
+   }
+  },
+  "R09": {
+   "0.5": {
+    "threshold": 500.0,
+    "alerts_per_week": 1861.125,
+    "tp_accounts": 18,
+    "precision": 0.005171603196991,
+    "lost_unique_tp_accounts": 0
+   },
+   "0.75": {
+    "threshold": 750.0,
+    "alerts_per_week": 1661.625,
+    "tp_accounts": 16,
+    "precision": 0.0052659294365455,
+    "lost_unique_tp_accounts": 0
+   },
+   "1.0": {
+    "threshold": 1000.0,
+    "alerts_per_week": 1520.75,
+    "tp_accounts": 16,
+    "precision": 0.0057537399309551,
+    "lost_unique_tp_accounts": 0
+   },
+   "1.5": {
+    "threshold": 1500.0,
+    "alerts_per_week": 1314.25,
+    "tp_accounts": 13,
+    "precision": 0.0046604527296937,
+    "lost_unique_tp_accounts": 2
+   },
+   "2.0": {
+    "threshold": 2000.0,
+    "alerts_per_week": 1155.0,
+    "tp_accounts": 11,
+    "precision": 0.0045454545454545,
+    "lost_unique_tp_accounts": 4
+   },
+   "3.0": {
+    "threshold": 3000.0,
+    "alerts_per_week": 951.125,
+    "tp_accounts": 9,
+    "precision": 0.0041398344066237,
+    "lost_unique_tp_accounts": 6
+   },
+   "5.0": {
+    "threshold": 5000.0,
+    "alerts_per_week": 724.0625,
+    "tp_accounts": 7,
+    "precision": 0.0042296072507552,
+    "lost_unique_tp_accounts": 7
+   },
+   "10.0": {
+    "threshold": 10000.0,
+    "alerts_per_week": 535.0625,
+    "tp_accounts": 4,
+    "precision": 0.0032706459525756,
+    "lost_unique_tp_accounts": 9
+   },
+   "20.0": {
+    "threshold": 20000.0,
+    "alerts_per_week": 418.25,
+    "tp_accounts": 4,
+    "precision": 0.00418410041841,
+    "lost_unique_tp_accounts": 9
+   }
+  },
+  "R11": {
+   "0.5": {
+    "threshold": 125000.0,
+    "alerts_per_week": 530.25,
+    "tp_accounts": 16,
+    "precision": 0.0148514851485148,
+    "lost_unique_tp_accounts": 0
+   },
+   "0.75": {
+    "threshold": 187500.0,
+    "alerts_per_week": 399.0,
+    "tp_accounts": 13,
+    "precision": 0.0164473684210526,
+    "lost_unique_tp_accounts": 0
+   },
+   "1.0": {
+    "threshold": 250000.0,
+    "alerts_per_week": 301.0,
+    "tp_accounts": 11,
+    "precision": 0.0188953488372093,
+    "lost_unique_tp_accounts": 0
+   },
+   "1.5": {
+    "threshold": 375000.0,
+    "alerts_per_week": 234.5,
+    "tp_accounts": 9,
+    "precision": 0.0186567164179104,
+    "lost_unique_tp_accounts": 1
+   },
+   "2.0": {
+    "threshold": 500000.0,
+    "alerts_per_week": 164.5,
+    "tp_accounts": 6,
+    "precision": 0.0186170212765957,
+    "lost_unique_tp_accounts": 2
+   },
+   "3.0": {
+    "threshold": 750000.0,
+    "alerts_per_week": 66.0625,
+    "tp_accounts": 2,
+    "precision": 0.0198675496688741,
+    "lost_unique_tp_accounts": 4
+   }
+  }
+ },
+ "coverage": {
+  "summary": {
+   "visible_attempts": 526.0,
+   "detected_attempts": 77.0,
+   "coverage": 0.1463878326996197,
+   "typologies": 8.0,
+   "typologies_with_a_designed_rule": 6.0
+  },
+  "by_typology": {
+   "FAN-OUT": {
+    "visible_attempts": 54,
+    "detected_attempts": 4,
+    "detection_rate": 0.074074074074074,
+    "rules_designed_for_it": "R03"
+   },
+   "FAN-IN": {
+    "visible_attempts": 69,
+    "detected_attempts": 6,
+    "detection_rate": 0.0869565217391304,
+    "rules_designed_for_it": "R06"
+   },
+   "BIPARTITE": {
+    "visible_attempts": 70,
+    "detected_attempts": 8,
+    "detection_rate": 0.1142857142857142,
+    "rules_designed_for_it": "R03, R06"
+   },
+   "RANDOM": {
+    "visible_attempts": 47,
+    "detected_attempts": 6,
+    "detection_rate": 0.1276595744680851,
+    "rules_designed_for_it": "R04"
+   },
+   "GATHER-SCATTER": {
+    "visible_attempts": 85,
+    "detected_attempts": 14,
+    "detection_rate": 0.1647058823529411,
+    "rules_designed_for_it": "R03, R06"
+   },
+   "SCATTER-GATHER": {
+    "visible_attempts": 60,
+    "detected_attempts": 10,
+    "detection_rate": 0.1666666666666666,
+    "rules_designed_for_it": NaN
+   },
+   "STACK": {
+    "visible_attempts": 94,
+    "detected_attempts": 16,
+    "detection_rate": 0.1702127659574468,
+    "rules_designed_for_it": "R04"
+   },
+   "CYCLE": {
+    "visible_attempts": 47,
+    "detected_attempts": 13,
+    "detection_rate": 0.2765957446808511,
+    "rules_designed_for_it": NaN
+   }
+  }
+ },
+ "network": {
+  "performance": {
+   "all R13": {
+    "alerts": 48,
+    "tp_alerts": 14.0,
+    "precision": 0.2916666666666667,
+    "tp_accounts": 14,
+    "tp_accounts_new_vs_tuned_rules": 10,
+    "alerts_per_week": 21.0
+   },
+   "cycle": {
+    "alerts": 43,
+    "tp_alerts": 9.0,
+    "precision": 0.2093023255813953,
+    "tp_accounts": 9,
+    "tp_accounts_new_vs_tuned_rules": 5,
+    "alerts_per_week": 18.8125
+   },
+   "scatter-gather": {
+    "alerts": 5,
+    "tp_alerts": 5.0,
+    "precision": 1.0,
+    "tp_accounts": 5,
+    "tp_accounts_new_vs_tuned_rules": 5,
+    "alerts_per_week": 2.1875
+   }
+  },
+  "coverage": {
+   "BIPARTITE": {
+    "visible_attempts": 70,
+    "rules_now": 0.1142857142857142,
+    "tuned_rules": 0.1142857142857142,
+    "r13_alone": 0.0,
+    "tuned_rules_plus_r13": 0.1142857142857142
+   },
+   "CYCLE": {
+    "visible_attempts": 47,
+    "rules_now": 0.2765957446808511,
+    "tuned_rules": 0.2127659574468085,
+    "r13_alone": 0.0425531914893617,
+    "tuned_rules_plus_r13": 0.2553191489361702
+   },
+   "FAN-IN": {
+    "visible_attempts": 69,
+    "rules_now": 0.0869565217391304,
+    "tuned_rules": 0.1014492753623188,
+    "r13_alone": 0.072463768115942,
+    "tuned_rules_plus_r13": 0.1594202898550724
+   },
+   "FAN-OUT": {
+    "visible_attempts": 54,
+    "rules_now": 0.074074074074074,
+    "tuned_rules": 0.0925925925925925,
+    "r13_alone": 0.074074074074074,
+    "tuned_rules_plus_r13": 0.1296296296296296
+   },
+   "GATHER-SCATTER": {
+    "visible_attempts": 85,
+    "rules_now": 0.1647058823529411,
+    "tuned_rules": 0.1529411764705882,
+    "r13_alone": 0.0588235294117647,
+    "tuned_rules_plus_r13": 0.1764705882352941
+   },
+   "RANDOM": {
+    "visible_attempts": 47,
+    "rules_now": 0.1276595744680851,
+    "tuned_rules": 0.0425531914893617,
+    "r13_alone": 0.0851063829787234,
+    "tuned_rules_plus_r13": 0.1276595744680851
+   },
+   "SCATTER-GATHER": {
+    "visible_attempts": 60,
+    "rules_now": 0.1666666666666666,
+    "tuned_rules": 0.1,
+    "r13_alone": 0.1833333333333333,
+    "tuned_rules_plus_r13": 0.2666666666666666
+   },
+   "STACK": {
+    "visible_attempts": 94,
+    "rules_now": 0.1702127659574468,
+    "tuned_rules": 0.1382978723404255,
+    "r13_alone": 0.0531914893617021,
+    "tuned_rules_plus_r13": 0.1702127659574468
+   }
+  }
+ },
+ "payroll": {
+  "corporate_alerts": 114,
+  "baseline": 75.8,
+  "spike": 0.5039577836411611,
+  "payroll_driven_alerts": 47,
+  "share_known_payroll": 1.0,
+  "laundering_hits": 0.0,
+  "escalated": 0,
+  "payments": 379,
+  "paying_accounts": 26,
+  "median_salary_eur": 2947.54,
+  "verdict": "Expected activity (KYC declares payroll): no risk increase, do not escalate; add a known-payroll exclusion and watch the next cycle"
+ },
+ "kyc": {
+  "Customers without expected activity": {
+   "customers": 792,
+   "share": 0.0395841663334666,
+   "base": "all customers",
+   "detection_impact": "R12 cannot evaluate these customers"
+  },
+  "High-risk customers with review older than 12 months": {
+   "customers": 177,
+   "share": 0.0867221950024497,
+   "base": "high-risk customers",
+   "detection_impact": "Risk rating and expected activity may be stale for the riskiest files"
+  },
+  "Customer records sharing one entity": {
+   "customers": 80,
+   "share": 0.0039984006397441,
+   "base": "all customers",
+   "detection_impact": "Activity split across two records; profiles and limits are computed per record"
+  },
+  "KYC file flagged incomplete": {
+   "customers": 964,
+   "share": 0.0481807277089164,
+   "base": "all customers",
+   "detection_impact": "Monitoring runs on partial profiles"
+  }
+ },
+ "kyc_impact": {
+  "laundering_customers": 850.0,
+  "laundering_customers_without_profile": 37.0,
+  "share_blind_to_r12": 0.0435294117647058
+ },
+ "dispositions": {
+  "R01": {
+   "alerts": 1343,
+   "sar_filed": 19,
+   "escalated": 93,
+   "closed_no_issue": 1231,
+   "sar_conversion": 0.0141474311243484,
+   "median_minutes": 12.2,
+   "analyst_hours": 310.62833333333367
+  },
+  "R02": {
+   "alerts": 786,
+   "sar_filed": 11,
+   "escalated": 49,
+   "closed_no_issue": 726,
+   "sar_conversion": 0.0139949109414758,
+   "median_minutes": 12.1,
+   "analyst_hours": 182.5399999999999
+  },
+  "R04": {
+   "alerts": 9877,
+   "sar_filed": 110,
+   "escalated": 583,
+   "closed_no_issue": 9184,
+   "sar_conversion": 0.0111369849144477,
+   "median_minutes": 12.0,
+   "analyst_hours": 2242.251666666677
+  },
+  "R05": {
+   "alerts": 47,
+   "sar_filed": 2,
+   "escalated": 1,
+   "closed_no_issue": 44,
+   "sar_conversion": 0.0425531914893617,
+   "median_minutes": 12.5,
+   "analyst_hours": 10.948333333333332
+  },
+  "R06": {
+   "alerts": 83,
+   "sar_filed": 7,
+   "escalated": 4,
+   "closed_no_issue": 72,
+   "sar_conversion": 0.0843373493975903,
+   "median_minutes": 13.0,
+   "analyst_hours": 20.535000000000007
+  },
+  "R07": {
+   "alerts": 611,
+   "sar_filed": 6,
+   "escalated": 39,
+   "closed_no_issue": 566,
+   "sar_conversion": 0.0098199672667757,
+   "median_minutes": 12.0,
+   "analyst_hours": 141.97833333333338
+  },
+  "R09": {
+   "alerts": 3476,
+   "sar_filed": 59,
+   "escalated": 212,
+   "closed_no_issue": 3205,
+   "sar_conversion": 0.0169735327963176,
+   "median_minutes": 11.9,
+   "analyst_hours": 780.2666666666678
+  },
+  "R10": {
+   "alerts": 663,
+   "sar_filed": 9,
+   "escalated": 47,
+   "closed_no_issue": 607,
+   "sar_conversion": 0.0135746606334841,
+   "median_minutes": 12.2,
+   "analyst_hours": 153.24833333333336
+  },
+  "R11": {
+   "alerts": 688,
+   "sar_filed": 11,
+   "escalated": 51,
+   "closed_no_issue": 626,
+   "sar_conversion": 0.0159883720930232,
+   "median_minutes": 11.6,
+   "analyst_hours": 154.24666666666678
+  },
+  "R12": {
+   "alerts": 591,
+   "sar_filed": 18,
+   "escalated": 36,
+   "closed_no_issue": 537,
+   "sar_conversion": 0.0304568527918781,
+   "median_minutes": 12.9,
+   "analyst_hours": 149.8683333333333
+  },
+  "All rules": {
+   "alerts": 18165,
+   "sar_filed": 252,
+   "escalated": 1115,
+   "closed_no_issue": 16798,
+   "sar_conversion": 0.0138728323699421,
+   "median_minutes": 12.0,
+   "analyst_hours": 4146.511666666668
+  }
+ },
+ "model": {
+  "metrics": {
+   "v1 first draft": {
+    "features": "as-of + whole-period aggregates (future)",
+    "validation": "random split of account-days",
+    "roc_auc": 0.9855174043887028,
+    "avg_precision": 0.5677453269260226,
+    "n_train": 233259,
+    "n_test": 139956,
+    "pos_train": 701,
+    "pos_test": 421
+   },
+   "v1 features, temporal test": {
+    "features": "as-of + whole-period aggregates (future)",
+    "validation": "train <= 2022-09-10, test after",
+    "roc_auc": 0.9828321348257064,
+    "avg_precision": 0.558280038124931,
+    "n_train": 236072,
+    "n_test": 137143,
+    "pos_train": 619,
+    "pos_test": 503
+   },
+   "v2 challenger": {
+    "features": "as-of only (that day + 7 days before)",
+    "validation": "train <= 2022-09-10, test after",
+    "roc_auc": 0.941504784233708,
+    "avg_precision": 0.250589316121363,
+    "n_train": 236072,
+    "n_test": 137143,
+    "pos_train": 619,
+    "pos_test": 503
+   }
+  },
+  "capacity": {
+   "Tuned rules (all alerts)": {
+    "alerts_per_day": 277.5,
+    "precision": 0.0276276276276276,
+    "laundering_accounts_found": 39,
+    "laundering_accounts_in_test": 410,
+    "recall_accounts": 0.0951219512195122,
+    "score_threshold_mean": NaN
+   },
+   "Challenger top 257 per day (capacity)": {
+    "alerts_per_day": 257.0,
+    "precision": 0.1549935149156939,
+    "laundering_accounts_found": 187,
+    "laundering_accounts_in_test": 410,
+    "recall_accounts": 0.4560975609756098,
+    "score_threshold_mean": 0.0388167139556082
+   },
+   "Tuned rules + challenger (union)": {
+    "alerts_per_day": NaN,
+    "precision": NaN,
+    "laundering_accounts_found": 208,
+    "laundering_accounts_in_test": 410,
+    "recall_accounts": 0.5073170731707317,
+    "score_threshold_mean": NaN
+   }
+  },
+  "simpson": [
+   {
+    "segment": "retail",
+    "risk_rating": "all",
+    "alerts": 963,
+    "true_positives": 138,
+    "precision": 0.1433021806853582
+   },
+   {
+    "segment": "retail",
+    "risk_rating": "low",
+    "alerts": 599,
+    "true_positives": 30,
+    "precision": 0.0500834724540901
+   },
+   {
+    "segment": "retail",
+    "risk_rating": "medium",
+    "alerts": 259,
+    "true_positives": 51,
+    "precision": 0.1969111969111969
+   },
+   {
+    "segment": "retail",
+    "risk_rating": "high",
+    "alerts": 105,
+    "true_positives": 57,
+    "precision": 0.5428571428571428
+   },
+   {
+    "segment": "sme",
+    "risk_rating": "all",
+    "alerts": 345,
+    "true_positives": 74,
+    "precision": 0.2144927536231884
+   },
+   {
+    "segment": "sme",
+    "risk_rating": "low",
+    "alerts": 69,
+    "true_positives": 0,
+    "precision": 0.0
+   },
+   {
+    "segment": "sme",
+    "risk_rating": "medium",
+    "alerts": 112,
+    "true_positives": 17,
+    "precision": 0.1517857142857142
+   },
+   {
+    "segment": "sme",
+    "risk_rating": "high",
+    "alerts": 164,
+    "true_positives": 57,
+    "precision": 0.3475609756097561
+   },
+   {
+    "segment": "corporate",
+    "risk_rating": "all",
+    "alerts": 234,
+    "true_positives": 27,
+    "precision": 0.1153846153846153
+   },
+   {
+    "segment": "corporate",
+    "risk_rating": "low",
+    "alerts": 100,
+    "true_positives": 0,
+    "precision": 0.0
+   },
+   {
+    "segment": "corporate",
+    "risk_rating": "medium",
+    "alerts": 92,
+    "true_positives": 11,
+    "precision": 0.1195652173913043
+   },
+   {
+    "segment": "corporate",
+    "risk_rating": "high",
+    "alerts": 42,
+    "true_positives": 16,
+    "precision": 0.3809523809523809
+   }
+  ],
+  "importance": [
+   {
+    "feature": "share_ach_out",
+    "importance": 0.3338195876093145,
+    "std": 0.0054938846670047
+   },
+   {
+    "feature": "share_ach_in",
+    "importance": 0.1787287465040533,
+    "std": 0.0058004942180668
+   },
+   {
+    "feature": "in_usd",
+    "importance": 0.1090023506080453,
+    "std": 0.0051629304996726
+   },
+   {
+    "feature": "n_currencies_out",
+    "importance": 0.0685615819871286,
+    "std": 0.0045965302027874
+   },
+   {
+    "feature": "in_cp",
+    "importance": 0.0575357001532733,
+    "std": 0.0040351768337563
+   },
+   {
+    "feature": "out_max_usd",
+    "importance": 0.046414972397504,
+    "std": 0.0078927195130487
+   },
+   {
+    "feature": "out_cnt",
+    "importance": 0.0421329824587385,
+    "std": 0.0041906588454763
+   },
+   {
+    "feature": "out_cp",
+    "importance": 0.0342614709764246,
+    "std": 0.0038358928599918
+   }
+  ],
+  "base": {
+   "account_days": 373215.0,
+   "positives": 1122.0,
+   "base_rate": 0.0030063100357702,
+   "train_days": 10.0,
+   "test_days": 6.0,
+   "daily_capacity": 257.1428571428572
+  }
+ },
+ "ecb": {
+  "rows": [
+   {
+    "zone": "B0",
+    "zone_label": "EU",
+    "period": "2022-S1",
+    "value_eur_m": 728.6132848731052,
+    "series_key": "PAY.H.B0.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "B0",
+    "zone_label": "EU",
+    "period": "2022-S2",
+    "value_eur_m": 755.3753038972105,
+    "series_key": "PAY.H.B0.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "B0",
+    "zone_label": "EU",
+    "period": "2023-S1",
+    "value_eur_m": 856.2566040246139,
+    "series_key": "PAY.H.B0.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "B0",
+    "zone_label": "EU",
+    "period": "2023-S2",
+    "value_eur_m": 1006.6470872563036,
+    "series_key": "PAY.H.B0.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "B0",
+    "zone_label": "EU",
+    "period": "2024-S1",
+    "value_eur_m": 1037.738270595845,
+    "series_key": "PAY.H.B0.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "B0",
+    "zone_label": "EU",
+    "period": "2024-S2",
+    "value_eur_m": 1227.4926797756711,
+    "series_key": "PAY.H.B0.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "B0",
+    "zone_label": "EU",
+    "period": "2025-S1",
+    "value_eur_m": 1221.0476219613342,
+    "series_key": "PAY.H.B0.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "B0",
+    "zone_label": "EU",
+    "period": "2025-S2",
+    "value_eur_m": 1413.773037571539,
+    "series_key": "PAY.H.B0.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "U2",
+    "zone_label": "Euro area",
+    "period": "2022-S1",
+    "value_eur_m": 691.9300252700001,
+    "series_key": "PAY.H.U2.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "U2",
+    "zone_label": "Euro area",
+    "period": "2022-S2",
+    "value_eur_m": 700.19984054,
+    "series_key": "PAY.H.U2.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "U2",
+    "zone_label": "Euro area",
+    "period": "2023-S1",
+    "value_eur_m": 745.4271558999999,
+    "series_key": "PAY.H.U2.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "U2",
+    "zone_label": "Euro area",
+    "period": "2023-S2",
+    "value_eur_m": 792.77765122,
+    "series_key": "PAY.H.U2.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "U2",
+    "zone_label": "Euro area",
+    "period": "2024-S1",
+    "value_eur_m": 868.29312108,
+    "series_key": "PAY.H.U2.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "U2",
+    "zone_label": "Euro area",
+    "period": "2024-S2",
+    "value_eur_m": 1082.7142804599998,
+    "series_key": "PAY.H.U2.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "U2",
+    "zone_label": "Euro area",
+    "period": "2025-S1",
+    "value_eur_m": 1048.62785955,
+    "series_key": "PAY.H.U2.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "U2",
+    "zone_label": "Euro area",
+    "period": "2025-S2",
+    "value_eur_m": 1239.82547041,
+    "series_key": "PAY.H.U2.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "ES",
+    "zone_label": "Spain",
+    "period": "2022-S1",
+    "value_eur_m": 41.85687173,
+    "series_key": "PAY.H.ES.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "ES",
+    "zone_label": "Spain",
+    "period": "2022-S2",
+    "value_eur_m": 65.71734319000001,
+    "series_key": "PAY.H.ES.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "ES",
+    "zone_label": "Spain",
+    "period": "2023-S1",
+    "value_eur_m": 58.82496436,
+    "series_key": "PAY.H.ES.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "ES",
+    "zone_label": "Spain",
+    "period": "2023-S2",
+    "value_eur_m": 75.74086023000001,
+    "series_key": "PAY.H.ES.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "ES",
+    "zone_label": "Spain",
+    "period": "2024-S1",
+    "value_eur_m": 81.61690364999998,
+    "series_key": "PAY.H.ES.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "ES",
+    "zone_label": "Spain",
+    "period": "2024-S2",
+    "value_eur_m": 72.20254379000001,
+    "series_key": "PAY.H.ES.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "ES",
+    "zone_label": "Spain",
+    "period": "2025-S1",
+    "value_eur_m": 100.52280297,
+    "series_key": "PAY.H.ES.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "ES",
+    "zone_label": "Spain",
+    "period": "2025-S2",
+    "value_eur_m": 149.76738745,
+    "series_key": "PAY.H.ES.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "FR",
+    "zone_label": "France",
+    "period": "2022-S1",
+    "value_eur_m": 166.79629569000002,
+    "series_key": "PAY.H.FR.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "FR",
+    "zone_label": "France",
+    "period": "2022-S2",
+    "value_eur_m": 147.31578699,
+    "series_key": "PAY.H.FR.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "FR",
+    "zone_label": "France",
+    "period": "2023-S1",
+    "value_eur_m": 155.90370478,
+    "series_key": "PAY.H.FR.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "FR",
+    "zone_label": "France",
+    "period": "2023-S2",
+    "value_eur_m": 156.58374556,
+    "series_key": "PAY.H.FR.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "FR",
+    "zone_label": "France",
+    "period": "2024-S1",
+    "value_eur_m": 160.21520719,
+    "series_key": "PAY.H.FR.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "FR",
+    "zone_label": "France",
+    "period": "2024-S2",
+    "value_eur_m": 194.36965691,
+    "series_key": "PAY.H.FR.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "FR",
+    "zone_label": "France",
+    "period": "2025-S1",
+    "value_eur_m": 235.24297918,
+    "series_key": "PAY.H.FR.W0.CT0.1.F.N.EUR"
+   },
+   {
+    "zone": "FR",
+    "zone_label": "France",
+    "period": "2025-S2",
+    "value_eur_m": 249.40912763,
+    "series_key": "PAY.H.FR.W0.CT0.1.F.N.EUR"
+   }
+  ],
+  "extracted_on": "2026-11-24"
+ },
+ "amlr": [
+  {
+   "article": 20,
+   "title": "Customer due diligence measures"
+  },
+  {
+   "article": 26,
+   "title": "Ongoing monitoring of the business relationship and monitoring of transactions performed by customers"
+  },
+  {
+   "article": 34,
+   "title": "Scope of application of enhanced due diligence measures"
+  },
+  {
+   "article": 69,
+   "title": "Reporting of suspicions"
+  },
+  {
+   "article": 77,
+   "title": "Record retention"
+  }
+ ]
+}

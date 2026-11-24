@@ -1,0 +1,8 @@
+{
+ "bank_feed_built_from": "sql/00_bank_feed.sql",
+ "defect": {
+  "format": "ACH",
+  "start": "2022-09-09",
+  "bp": 600
+ }
+}

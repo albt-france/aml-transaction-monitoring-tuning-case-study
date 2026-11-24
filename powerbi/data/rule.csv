@@ -1,0 +1,13 @@
+rule_id,name,typology,threshold,lookback_days
+R01,Large single transfer,Large value,750000,1
+R02,Structuring below 10k,Structuring,10000,7
+R03,Fan-out,FAN-OUT; GATHER-SCATTER; BIPARTITE,20,1
+R04,Rapid movement of funds,STACK; RANDOM,20000,2
+R05,Activity spike,Behaviour change,5,7
+R06,Fan-in,FAN-IN; GATHER-SCATTER; BIPARTITE,20,1
+R07,High-risk corridor,Geography,500000,1
+R08,Crypto / cross-currency,Conversion,10000,1
+R09,Round amounts,Generic red flag,1000,1
+R10,Cash activity,Cash,750000,1
+R11,High-risk customer outflow,KYC risk,250000,1
+R12,Activity above expected profile,KYC profile,4,7

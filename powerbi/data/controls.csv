@@ -1,0 +1,16 @@
+control_id,name,object,metric,warn_above,fail_above,status,frequency,owner,detail
+C01,Field completeness,transaction feed,0.003667,0.001,0.01,WARN,daily,Data engineering,worst field: to_bank (0.367%); all others 0.000% or less
+C02,Completeness by feed and day (beneficiary bank),"transaction feed, per payment format",0.061294,0.001,0.01,FAIL,daily,Data engineering,"ACH feed loses the beneficiary bank from 2022-09-09 (6.03% of rows on average, 8 days)"
+C03,Exact duplicate rows,transaction feed,1e-06,0.0,0.01,WARN,daily,Data engineering,"20 exact duplicate rows out of 31,891,251"
+C04,"Allowed values (currencies, payment formats)",transaction feed,0.0,0.0,0.0,PASS,daily,Data engineering,0 rows outside 15 currencies / 7 formats
+C05,Non-positive amounts,transaction feed,0.0,0.0,0.0,PASS,daily,Data engineering,0 rows with an amount <= 0
+C06,Paid = received when the currency is the same,transaction feed,0.0,0.0,0.001,PASS,daily,Data engineering,0 same-currency rows where paid and received differ
+C07,"Freshness (feed arrival lag, hours after day end)",feed metadata,3.483333,6.0,24.0,PASS,daily,Data engineering,"latest feed arrives 3.5 h after day end; the source file also carries 6,987 late rows up to 2022-09-28, outside the complete-day window"
+C08,Daily volume against the same weekday,transaction feed,1.313251,0.5,1.5,WARN,daily,TM operations,"largest deviation +131% on 2022-09-01 (4,465,985 rows)"
+C09,Self-transfers share per day,transaction feed,0.454775,0.05,0.2,FAIL,daily,TM operations,"45% self-transfers on 2022-09-01 (1,945,611 'Reinvestment' rows, none on other days)"
+C10,Accounts missing from the account master,transaction feed vs account master,0.0,0.0,0.01,PASS,weekly,Data engineering,"0 of 2,076,983 accounts seen in the feed are missing from the master"
+C11,FX rate available for every currency,FX reference table,0.0,0.0,0.0,PASS,daily,Data engineering,15 currencies with a fixed USD rate implied by the file; 0 rows without USD amount
+C12,Labelled laundering rows match the typology file,transaction feed vs Patterns file,0.400918,0.01,0.05,FAIL,per load,Data science,"12,487 of 31,146 labelled rows in the window are not listed in the typology file: coverage by typology is measured on the documented attempts only"
+C13,Customers without expected activity,KYC file,0.039584,0.01,0.03,FAIL,weekly,KYC team,792 customers without expected monthly volume (R12 cannot evaluate them)
+C14,High-risk customers with an overdue review (> 12 months),KYC file,0.086722,0.02,0.05,FAIL,weekly,KYC team,177 high-risk customers last reviewed more than 12 months before 2022-09-16
+C15,Several customer records for one entity,KYC file,0.002003,0.0,0.01,WARN,weekly,KYC team,80 customer records share an entity with another record

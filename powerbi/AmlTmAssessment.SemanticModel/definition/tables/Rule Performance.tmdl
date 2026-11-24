@@ -1,0 +1,86 @@
+table 'Rule Performance'
+	lineageTag: b40cc65a-f392-5eea-9b4f-2d266131090f
+
+	column ruleset
+		dataType: string
+		lineageTag: 4a50cad2-dde9-5192-b827-362eee2d1202
+		summarizeBy: none
+		sourceColumn: ruleset
+
+	column rule_id
+		dataType: string
+		lineageTag: baa25bda-eb2b-5972-b327-8c51655c93aa
+		summarizeBy: none
+		sourceColumn: rule_id
+
+	column name
+		dataType: string
+		lineageTag: 20bc3b21-6574-5d73-bce4-05dbc475ffd7
+		summarizeBy: none
+		sourceColumn: name
+
+	column alerts
+		dataType: int64
+		formatString: #,0
+		lineageTag: fb0d85c4-225f-5a98-a11e-a413f7d72045
+		summarizeBy: none
+		sourceColumn: alerts
+
+	column share_of_alerts
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 54403624-2c9e-5a6c-842f-eb8461333eaf
+		summarizeBy: none
+		sourceColumn: share_of_alerts
+
+	column tp_alerts
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 6cf2a982-399a-5587-8e05-3d26305bc377
+		summarizeBy: none
+		sourceColumn: tp_alerts
+
+	column precision
+		dataType: double
+		formatString: 0.0%
+		lineageTag: a705d8f9-1c55-53bc-9c81-147044e28823
+		summarizeBy: none
+		sourceColumn: precision
+
+	column tp_accounts
+		dataType: int64
+		formatString: #,0
+		lineageTag: b72536d1-353a-53e9-93b0-d78838369f7a
+		summarizeBy: none
+		sourceColumn: tp_accounts
+
+	column recall
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 178a1ae5-5b95-542a-9c04-889bfae55849
+		summarizeBy: none
+		sourceColumn: recall
+
+	column unique_tp_accounts
+		dataType: int64
+		formatString: #,0
+		lineageTag: fcbc6212-b1d1-5223-a44f-efca553105c8
+		summarizeBy: none
+		sourceColumn: unique_tp_accounts
+
+	column alerts_per_week
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 204b9868-060a-5d42-ba16-f832bdb839f4
+		summarizeBy: none
+		sourceColumn: alerts_per_week
+
+	partition 'Rule Performance' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "rule_performance.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Promoted, {{"ruleset", type text}, {"rule_id", type text}, {"name", type text}, {"alerts", Int64.Type}, {"share_of_alerts", type number}, {"tp_alerts", type number}, {"precision", type number}, {"tp_accounts", Int64.Type}, {"recall", type number}, {"unique_tp_accounts", Int64.Type}, {"alerts_per_week", type number}}, "en-US")
+				in
+					Typed

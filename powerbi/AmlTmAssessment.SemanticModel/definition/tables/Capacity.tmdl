@@ -1,0 +1,82 @@
+table Capacity
+	lineageTag: 27fdf5b7-4f5f-54e9-8756-6851d95a05f4
+
+	column wk
+		dataType: int64
+		formatString: #,0
+		lineageTag: 18e0e3cd-81de-5294-8b88-25abc2344f44
+		summarizeBy: none
+		sourceColumn: wk
+
+	column days_in_week
+		dataType: int64
+		formatString: #,0
+		lineageTag: 9896caca-cf66-5dc6-bed6-94cc0d0bf579
+		summarizeBy: none
+		sourceColumn: days_in_week
+
+	column analysts
+		dataType: int64
+		formatString: #,0
+		lineageTag: f18994fd-614d-5815-b719-557d5f7e3258
+		summarizeBy: none
+		sourceColumn: analysts
+
+	column hours_available
+		dataType: double
+		formatString: #,0.00
+		lineageTag: bdbdcfb5-a5c2-55a1-b2bc-3e39efff5f05
+		summarizeBy: none
+		sourceColumn: hours_available
+
+	column alert_capacity
+		dataType: int64
+		formatString: #,0
+		lineageTag: 9cf752dd-e6e1-5092-94f3-038dbd4c0e58
+		summarizeBy: none
+		sourceColumn: alert_capacity
+
+	column alerts_implemented
+		dataType: int64
+		formatString: #,0
+		lineageTag: 0ef9a1e5-8be6-59b4-996b-ecafc73be095
+		summarizeBy: none
+		sourceColumn: alerts_implemented
+
+	column alerts_tuned
+		dataType: int64
+		formatString: #,0
+		lineageTag: 32ef1325-0d93-5c72-ae25-f573af7b988e
+		summarizeBy: none
+		sourceColumn: alerts_tuned
+
+	column load_implemented
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 32c93748-fbaf-5fd3-886d-47e1cf24184b
+		summarizeBy: none
+		sourceColumn: load_implemented
+
+	column load_tuned
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 298de1db-6cfb-58ee-9c85-c3215c9b6b98
+		summarizeBy: none
+		sourceColumn: load_tuned
+
+	column hours_needed_implemented
+		dataType: double
+		formatString: #,0.00
+		lineageTag: e21e9772-9a97-5afc-b935-d395a205dafc
+		summarizeBy: none
+		sourceColumn: hours_needed_implemented
+
+	partition Capacity = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "capacity.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Promoted, {{"wk", Int64.Type}, {"days_in_week", Int64.Type}, {"analysts", Int64.Type}, {"hours_available", type number}, {"alert_capacity", Int64.Type}, {"alerts_implemented", Int64.Type}, {"alerts_tuned", Int64.Type}, {"load_implemented", type number}, {"load_tuned", type number}, {"hours_needed_implemented", type number}}, "en-US")
+				in
+					Typed

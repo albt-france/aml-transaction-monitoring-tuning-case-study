@@ -1,0 +1,11 @@
+rule_id,payroll_driven,alerts,on_known_payroll_customers,true_positives,escalated_or_sar
+R01,False,18,5,0.0,1
+R04,True,3,3,0.0,0
+R05,True,26,26,0.0,0
+R07,False,7,2,0.0,1
+R09,False,29,17,0.0,1
+R09,True,3,3,0.0,0
+R10,False,4,0,0.0,1
+R11,False,7,3,0.0,1
+R12,False,2,0,0.0,0
+R12,True,15,15,0.0,0

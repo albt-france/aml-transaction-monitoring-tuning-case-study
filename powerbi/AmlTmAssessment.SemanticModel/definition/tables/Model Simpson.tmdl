@@ -1,0 +1,45 @@
+table 'Model Simpson'
+	lineageTag: 007d0c82-6468-5375-a0e4-a55155e2ea54
+
+	column segment
+		dataType: string
+		lineageTag: 81dc5ff0-a59c-5071-9d83-8cb715b4b00f
+		summarizeBy: none
+		sourceColumn: segment
+
+	column risk_rating
+		dataType: string
+		lineageTag: 44ffefe5-14c2-5848-900c-d9d1662f39df
+		summarizeBy: none
+		sourceColumn: risk_rating
+
+	column alerts
+		dataType: int64
+		formatString: #,0
+		lineageTag: a190e204-cd81-544e-b865-f1d7ae644a8b
+		summarizeBy: none
+		sourceColumn: alerts
+
+	column true_positives
+		dataType: int64
+		formatString: #,0
+		lineageTag: 1cb19dfa-771a-5b2a-821a-93cb0a6e4fac
+		summarizeBy: none
+		sourceColumn: true_positives
+
+	column precision
+		dataType: double
+		formatString: 0.0%
+		lineageTag: a26d7536-b85b-552d-8a33-284bf87922cd
+		summarizeBy: none
+		sourceColumn: precision
+
+	partition 'Model Simpson' = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "model_simpson.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Promoted, {{"segment", type text}, {"risk_rating", type text}, {"alerts", Int64.Type}, {"true_positives", Int64.Type}, {"precision", type number}}, "en-US")
+				in
+					Typed

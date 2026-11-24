@@ -1,0 +1,25 @@
+table Week
+	lineageTag: cbd4ee0c-3526-534a-b7ab-e8d8689315f3
+
+	column wk
+		dataType: int64
+		formatString: #,0
+		lineageTag: 7be5c168-e557-58e9-8531-75c5e82397ff
+		summarizeBy: none
+		sourceColumn: wk
+
+	column week_label
+		dataType: string
+		lineageTag: 646ea01d-58dc-50fa-81b5-8434782c6b27
+		summarizeBy: none
+		sourceColumn: week_label
+
+	partition Week = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents(DataFolder & "week.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Promoted, {{"wk", Int64.Type}, {"week_label", type text}}, "en-US")
+				in
+					Typed
